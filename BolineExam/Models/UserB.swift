@@ -9,7 +9,7 @@ struct UserB: Identifiable , Codable {
     var gender:String
     var emial:String
     var password:String
-    enum CodingKeysUser: String, CodingKey {
+    enum CodingKeysUserB: String, CodingKey {
         case id
         case name
         case lastname

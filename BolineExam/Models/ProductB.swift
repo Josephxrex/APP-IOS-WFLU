@@ -10,7 +10,7 @@ struct Product: Identifiable, Codable {
     var price:String
     var utility:String
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeysB: String, CodingKey {
         case id
         case name
         case description
