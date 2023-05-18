@@ -159,12 +159,12 @@
 		C9B67FA22A0EF9A300793AD4 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C9B67FBB2A0EFC3500793AD4 /* PurchaseEditView.swift */,
 				C9B67FAB2A0EFAA900793AD4 /* UserEditView.swift */,
 				C9B67FAD2A0EFAE200793AD4 /* UserDetailView.swift */,
 				C9B67FB72A0EFBF600793AD4 /* ProductsEditView.swift */,
 				C9B67FB92A0EFC1100793AD4 /* ProductsDetailView.swift */,
 				C9B67FBD2A0EFC9100793AD4 /* PurchaseDetailView.swift */,
+				C9B67FBB2A0EFC3500793AD4 /* PurchaseEditView.swift */,
 				C9B67FC72A0EFD2700793AD4 /* SalesEditView.swift */,
 				C9B67FC92A0EFD4B00793AD4 /* SalesDetailView.swift */,
 				C9B67FCB2A0EFD5C00793AD4 /* Menu.swift */,
