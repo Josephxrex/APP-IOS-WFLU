@@ -21,7 +21,7 @@ struct PurchaseDetailsView: View {
              
         }
       }
-      .navigationBarTitle("Pruchase: " + purchase.name)
+      .navigationBarTitle("Purchase: " + purchase.name)
       .navigationBarItems(trailing: editButton {
         self.presentEditPurchaseSheet.toggle()
       })
