@@ -7,9 +7,19 @@
 
 import SwiftUI
 
+var userViewModel = UsersViewModel()
+
 struct UsersListView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView(
+            List{
+                ForEach(userViewModel.users) {
+                    user in NavigationLink(destination: UserDetailView(user: user)){
+                        //ProductRowView(user:user)
+                    }
+                }
+            }
+        )
     }
 }
 
