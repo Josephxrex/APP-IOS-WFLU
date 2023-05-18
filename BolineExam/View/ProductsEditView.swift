@@ -90,7 +90,9 @@ struct ProductsEditView: View {
 
                 if mode == .edit {
                  Section {
-                  Button("Delete Movie") { self.presentActionSheet.toggle() }
+                  Button("Delete Product") { self.presentActionSheet.toggle()
+                      self.handleDeleteTapped()
+                  }
                     .foregroundColor(.red)
                  }
                 }
