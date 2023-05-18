@@ -1,8 +1,54 @@
-//
-//  PurchaseDetailView.swift
-//  BolineExam
-//
-//  Created by ISSC_612_2023 on 12/05/23.
-//
-
-import Foundation
+import SwiftUI
+ 
+struct PurchaseDetailsView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State var presentEditPurchaseSheet = false
+     
+    var purchase: PurchaseB
+     
+    private func editButton(action: @escaping () -> Void) -> some View {
+      Button(action: { action() }) {
+        Text("Edit")
+      }
+    }
+     
+    var body: some View {
+      Form {
+        Section(header: Text("Purchase")) {
+            Text(purchase.id)
+            Text()
+          Text(purchase.name)
+            Text(purchase.pieces)
+             
+        }
+      }
+      .navigationBarTitle("Pruchase: " + purchase.name)
+      .navigationBarItems(trailing: editButton {
+        self.presentEditPurchaseSheet.toggle()
+      })
+      .onAppear() {
+        print("PurchaseDetailView.onAppear() for \(self.purchase.name)")
+      }
+      .onDisappear() {
+        print("PurchaseDetailView.onDisappear()")
+      }
+      .sheet(isPresented: self.presentEditPurchaseSheet) {
+        PurchaseEditView(viewModel: PurchaseEditView(purchase: purchase), mode: .edit) { result in
+          if case .success(let action) = result, action == .delete {
+            self.presentationMode.wrappedValue.dismiss()
+          }
+        }
+      }
+    }
+     
+  }
+ 
+struct PurchaseDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        let purchase = PurchaseB(name: "", idP: "", pieces: "")
+        return
+          NavigationView {
+            PurchaseDetailsView(purchase: purchase)
+          }
+    }
+}
