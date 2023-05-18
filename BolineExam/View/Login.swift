@@ -17,7 +17,10 @@ struct Login: View {
     
     @State private var alerta = false
     
-    
+    var correo = false
+    var contrasenia = false
+    @State private var isValidated: Bool = false
+    @State private var showSecondScreen: Bool = false
     
     
     var body: some View {
@@ -43,6 +46,10 @@ struct Login: View {
                         Alert(title: Text("Alerta"),message:Text("\(mensaje)"),dismissButton: .default(Text("Ok")))
                     }
                 
+                
+                
+
+                
                 NavigationLink(destination: ProductsEditView(), label: {
                     Text("Sign Up").foregroundColor(.white)
                         .font(.headline)
@@ -57,16 +64,20 @@ struct Login: View {
         }
     }
     
-    func checkLogin() {
+
+    
+    func checkLogin(){
         if([email,password].contains("")){
             mensaje = "Ingresa todos los campos"
             alerta = true
         } else {
-        if(email == "correo@gmail.com" && password == "contraseña"){
-            //NavigationLink(destination: Menu()){
-                
-            //}
-        }}
+          if(email == "correo@gmail.com" && password == "contraseña"){
+              isValidated = true
+              NavigationLink(destination: ProductsEditView(), isActive: $isValidated) {
+                                  EmptyView()
+              }
+          }
+        }
     }
     
 }

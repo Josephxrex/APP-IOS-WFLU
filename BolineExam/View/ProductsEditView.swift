@@ -78,6 +78,13 @@ struct ProductsEditView: View {
                     }
                     };
 
+                
+                Button("Done") {
+                    validateFields()
+                }.padding()
+                    .alert(isPresented: $showAlert){
+                    Alert(title: Text(title), message: Text(message))
+                    }
 
                 
 
@@ -88,7 +95,7 @@ struct ProductsEditView: View {
                  }
                 }
                 
-
+                
             }
         }
     }
@@ -98,11 +105,13 @@ struct ProductsEditView: View {
         if([viewModel.product.name, viewModel.product.units, viewModel.product.cost, viewModel.product.price, viewModel.product.utility].contains("")){
             title = "Error"
             message = "One or more fields are empty"
+            showAlert = true
         }else{
             self.handleDoneTapped()
             clean()
             title="Success"
             message="The fields were saved succesfully"
+            showAlert = true
         }
     }
     
