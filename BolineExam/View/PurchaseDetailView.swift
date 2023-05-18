@@ -15,7 +15,7 @@ struct PurchaseDetailsView: View {
     var body: some View {
       Form {
         Section(header: Text("Purchase")) {
-            Text(purchase.idP)
+            Text(purchase.ida)
             Text(purchase.name)
             Text(purchase.pieces)
              
@@ -44,7 +44,7 @@ struct PurchaseDetailsView: View {
  
 struct PurchaseDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        let purchase = PurchaseB(name: "", idP: "", pieces: "")
+        let purchase = PurchaseB(name: "", ida: "", pieces: "")
         return
           NavigationView {
             PurchaseDetailsView(purchase: purchase)

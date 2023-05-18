@@ -19,7 +19,7 @@ struct PurchaseRowView: View {
             VStack(alignment: .leading){
                 Text(purchase.name).font(.title)
                 HStack{
-                    Text("idP:"+purchase.idP).font(.subheadline)
+                    Text("ida:"+purchase.ida).font(.subheadline)
                     Text("Pieces:"+purchase.pieces).font(.subheadline)
                     
                 }
@@ -30,7 +30,7 @@ struct PurchaseRowView: View {
 
 struct PurchaseRowView_Previews: PreviewProvider {
     static var previews: some View {
-        PurchaseRowView(purchase: PurchaseB(name: "prueba", idP: "63", pieces: "32"))
+        PurchaseRowView(purchase: PurchaseB(name: "prueba", ida: "63", pieces: "32"))
             .previewLayout(
                 .fixed(width: 400, height: 60))
     }

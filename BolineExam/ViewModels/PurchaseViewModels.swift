@@ -32,6 +32,7 @@ class PurchaseViewModels: ObservableObject {
       }
     }
   }
+    
    
   func removePurchases(atOffsets indexSet: IndexSet) {
     let purchases = indexSet.lazy.map { self.purchases[$0] }

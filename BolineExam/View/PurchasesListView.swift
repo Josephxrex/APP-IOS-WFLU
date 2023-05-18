@@ -8,8 +8,26 @@
 import SwiftUI
 
 struct PurchasesListView: View {
+    @StateObject var purchaseViewModel = PurchaseViewModels()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView{
+            List {
+                ForEach(purchaseViewModel.purchases) { purchase in
+                    NavigationLink(destination: PurchaseDetailsView(purchase: purchase)) {
+                        PurchaseRowView(purchase: purchase)
+                    }
+                }
+                .onDelete(){
+                    indexSet in
+                    purchaseViewModel.removePurchases(atOffsets: indexSet)
+                }
+            }.navigationTitle("Purchases")
+             .onAppear() {
+                 purchaseViewModel.subscribe()
+            }
+        }
+        
     }
 }
 

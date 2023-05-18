@@ -14,7 +14,7 @@ class PurchaseViewModel: ObservableObject {
     private let db = Firestore.firestore()
     private let collection = "purchase" // Nombre de la colección en la base de datos
     
-    init(purchase: PurchaseB = PurchaseB(name: "", idP: "", pieces: "")) {
+    init(purchase: PurchaseB = PurchaseB(name: "", ida: "", pieces: "")) {
         self.purchase = purchase
         
         self.$purchase
