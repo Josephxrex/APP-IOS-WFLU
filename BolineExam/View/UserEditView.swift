@@ -1,11 +1,11 @@
 import SwiftUI
  
-enum Mode {
+enum ModeUser {
   case new
   case edit
 }
  
-enum Action {
+enum ActionUser {
   case delete
   case done
   case cancel
@@ -16,7 +16,7 @@ struct UserEditView: View {
     @State var presentActionSheet = false
      
     @ObservedObject var viewModel = UserViewModels()
-    var mode: Mode = .new
+    var mode: ModeUser = .new
     var completionHandler: ((Result<Action, Error>) -> Void)?
      
      
