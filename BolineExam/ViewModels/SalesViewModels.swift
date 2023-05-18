@@ -5,52 +5,52 @@ import FirebaseFirestoreSwift
 
 class SalesViewModels: ObservableObject {
     
-    @Published var user: UserB
+    @Published var sale: SalesB
     @Published var modified = false
      
     private var cancellables = Set<AnyCancellable>()
     
     //FIRESTORE
     private let db = Firestore.firestore()
-    private let collection = "user" // Nombre de la colección en la base de datos
+    private let collection = "sale" // Nombre de la colección en la base de datos
     
-    init(user: UserB = UserB(name:"",lastname:"",age: "",gender: "",emial: "",password: "")) {
-        self.user = user
+    init(sale: SalesB = SalesB(name:"",quantity: "",idVenta: "",idCompra: "",pieces: "",subTotal: "",total: "")) {
+        self.sale = sale
         
-        self.$user
+        self.$sale
             .dropFirst()
-            .sink{[weak self] user in self?.modified = true}.store(in: &self.cancellables)
+            .sink{[weak self] sale in self?.modified = true}.store(in: &self.cancellables)
     }
     
-    func addUser(_ user: UserB) {
+    func addSale(_ sale: SalesB) {
         do {
-            _ = try db.collection(collection).addDocument(from: user)
+            _ = try db.collection(collection).addDocument(from: sale)
         } catch {
             print("Error adding document: \(error.localizedDescription)")
         }
     }
     
-    func updateUser(_ user: UserB) {
-        if let userID = user.id {
+    func updateSale(_ sale: SalesB) {
+        if let saleID = sale.id {
             do {
-                try db.collection(collection).document(userID).setData(from: user)
+                try db.collection(collection).document(saleID).setData(from: sale)
             } catch {
                 print("Error updating document: \(error.localizedDescription)")
             }
         }
     }
     
-    func updateOrAddUser() {
-        if let _ = user.id {
-            self.updateUser(self.user)
+    func updateOrAddSale() {
+        if let _ = sale.id {
+            self.updateSale(self.sale)
         }else{
-            addUser(user)
+            addSale(sale)
         }
     }
     
-    func deleteUser() {
-        if let userID = user.id {
-            db.collection(collection).document(userID).delete { error in
+    func deleteSale() {
+        if let saleID = sale.id {
+            db.collection(collection).document(saleID).delete { error in
                 if let error = error {
                     print("Error removing document: \(error.localizedDescription)")
                 }
@@ -60,10 +60,10 @@ class SalesViewModels: ObservableObject {
     // UI handlers
      
     func handleDoneTapped() {
-        self.updateOrAddUser()
+        self.updateOrAddSale()
     }
      
     func handleDeleteTapped() {
-      self.deleteUser()
+      self.deleteSale()
     }
 }

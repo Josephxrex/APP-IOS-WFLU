@@ -8,13 +8,57 @@
 import SwiftUI
 
 struct UserDetailView: View {
+    
+    @Environment(\.presentationMode) var presentationMode
+    @State var presentEditMovieSheet = false
+    
+    var user: UserB
+    
+    private func editButton(action: @escaping () -> Void) -> some View {
+        Button(action: { action() }) {
+            Text("Edit")
+        }
+    }
+    
+    //CUERPO
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Form {
+                Section(header: Text("User")) {
+                    Text(user.name)
+                    Text(user.lastname)
+                    Text(user.gender)
+                    Text(user.age)
+                    Text(user.emial)
+                }
+            }
+            .navigationBarTitle(user.name)
+            .navigationBarItems(trailing: editButton {
+                self.presentEditMovieSheet.toggle()
+            })
+            .onAppear() {
+                print("UserDetailsView.onAppear() for \(self.user.name)")
+            }
+            .onDisappear() {
+                print("UserDetailsView.onDisappear()")
+            }
+            .sheet(isPresented: self.$presentEditMovieSheet) {
+                UserEditView(viewModel: UserViewModels(user: user), mode: .edit) { result in
+                    if case .success(let action) = result, action == .delete {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
     }
-}
-
-struct UserDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserDetailView()
-    }
+    
+    struct MovieDetailsView_Previews: PreviewProvider {
+        static var previews: some View {
+            let user = UserB(name:"",lastname:"",age: "",gender: "",emial: "",password: "")
+            return
+                NavigationView {
+                    UserDetailView(user: user)
+                }
+            }
+        }
 }

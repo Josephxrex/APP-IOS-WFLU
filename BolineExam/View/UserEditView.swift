@@ -1,20 +1,106 @@
-//
-//  UserEditView.swift
-//  BolineExam
-//
-//  Created by ISSC_612_2023 on 12/05/23.
-//
-
 import SwiftUI
-
-struct UserEditView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+ 
+enum Mode {
+  case new
+  case edit
 }
-
-struct UserEditView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserEditView()
+ 
+enum Action {
+  case delete
+  case done
+  case cancel
+}
+ 
+struct UserEditView: View {
+    @Environment(\.presentationMode) private var presentationMode
+    @State var presentActionSheet = false
+     
+    @ObservedObject var viewModel = UserViewModels()
+    var mode: Mode = .new
+    var completionHandler: ((Result<Action, Error>) -> Void)?
+     
+     
+    var cancelButton: some View {
+      Button(action: { self.handleCancelTapped() }) {
+        Text("Cancel")
+      }
     }
+     
+    var saveButton: some View {
+      Button(action: { self.handleDoneTapped() }) {
+        Text(mode == .new ? "Done" : "Save")
+      }
+      .disabled(!viewModel.modified)
+    }
+     
+    var body: some View {
+      NavigationView {
+        Form {
+          Section(header: Text("User Name")) {
+            TextField("Name", text: $viewModel.user.name)
+            TextField("LastName", text: $viewModel.user.lastname)
+            TextField("Age", text: $viewModel.user.age)
+            TextField("Gender", text: $viewModel.user.gender)
+            TextField("E-mail", text: $viewModel.user.emial)
+            TextField("Password", text: $viewModel.user.password)
+          }
+           
+          if mode == .edit {
+            Section {
+              Button("Delete User") { self.presentActionSheet.toggle() }
+                .foregroundColor(.red)
+            }
+          }
+        }
+        .navigationTitle(mode == .new ? "New User" : viewModel.user.name)
+        .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
+        .navigationBarItems(
+          leading: cancelButton,
+          trailing: saveButton
+        )
+        .actionSheet(isPresented: $presentActionSheet) {
+          ActionSheet(title: Text("Are you sure?"),
+                      buttons: [
+                        .destructive(Text("Delete User"),
+                                     action: { self.handleDeleteTapped() }),
+                        .cancel()
+                      ])
+        }
+      }
+    }
+     
+    // Action Handlers
+     
+    func handleCancelTapped() {
+      self.dismiss()
+    }
+     
+    func handleDoneTapped() {
+      self.viewModel.handleDoneTapped()
+      self.dismiss()
+    }
+     
+    func handleDeleteTapped() {
+      viewModel.handleDeleteTapped()
+      self.dismiss()
+      self.completionHandler?(.success(.delete))
+    }
+     
+    func dismiss() {
+      self.presentationMode.wrappedValue.dismiss()
+    }
+  }
+ 
+//struct MovieEditView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MovieEditView()
+//    }
+//}
+ 
+struct MovieEditView_Previews: PreviewProvider {
+  static var previews: some View {
+    let user = UserB(name:"Pigy",lastname:"Puerk",age: "23",gender: "M",emial: "",password: "")
+    let userViewModel = UserViewModels(user: user)
+    return UserEditView(viewModel: userViewModel, mode: .edit)
+  }
 }
