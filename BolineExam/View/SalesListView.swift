@@ -1,8 +1,11 @@
 import SwiftUI
 
-var saleViewModel = SalesViewModel()
+
 
 struct SalesListView: View {
+    
+    @StateObject var saleViewModel = SalesViewModel()
+    
     var body: some View {
         NavigationView{
             List{

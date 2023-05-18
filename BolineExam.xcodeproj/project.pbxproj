@@ -34,6 +34,8 @@
 		C9B67FF22A0F08C100793AD4 /* PurchaseB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B67FF12A0F08C100793AD4 /* PurchaseB.swift */; };
 		C9B67FF42A0F090400793AD4 /* ProductB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B67FF32A0F090400793AD4 /* ProductB.swift */; };
 		F170547B2A157A2F00EFB632 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F170547A2A157A2F00EFB632 /* GoogleService-Info.plist */; };
+		F17629272A16B98D00B50172 /* UserRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17629262A16B98D00B50172 /* UserRowView.swift */; };
+		F17629292A16B9EF00B50172 /* SaleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17629282A16B9EF00B50172 /* SaleRowView.swift */; };
 		F17B35E32A15715A001634BC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F17B35E22A15715A001634BC /* FirebaseAuth */; };
 		F17B35E52A15715A001634BC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F17B35E42A15715A001634BC /* FirebaseFirestore */; };
 		F17B35E72A15715A001634BC /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F17B35E62A15715A001634BC /* FirebaseFirestoreSwift */; };
@@ -74,6 +76,8 @@
 		C9B67FF12A0F08C100793AD4 /* PurchaseB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseB.swift; sourceTree = "<group>"; };
 		C9B67FF32A0F090400793AD4 /* ProductB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductB.swift; sourceTree = "<group>"; };
 		F170547A2A157A2F00EFB632 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F17629262A16B98D00B50172 /* UserRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRowView.swift; sourceTree = "<group>"; };
+		F17629282A16B9EF00B50172 /* SaleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleRowView.swift; sourceTree = "<group>"; };
 		F17B35EB2A15757F001634BC /* Component_SecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_SecureField.swift; sourceTree = "<group>"; };
 		F17B35ED2A15759C001634BC /* Component_TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_TextField.swift; sourceTree = "<group>"; };
 		F1D625A22A16A4E000A4B825 /* SalesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesListView.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				C9B67FAD2A0EFAE200793AD4 /* UserDetailView.swift */,
 				F1D625A42A16A4FE00A4B825 /* UsersListView.swift */,
 				F1D625A62A16AEE000A4B825 /* ProductRowView.swift */,
+				F17629262A16B98D00B50172 /* UserRowView.swift */,
+				F17629282A16B9EF00B50172 /* SaleRowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -275,6 +281,7 @@
 				C9B67FB42A0EFBB300793AD4 /* ProductsViewModel.swift in Sources */,
 				C9B67FC62A0EFCFF00793AD4 /* SalesViewModels.swift in Sources */,
 				C9B67FBA2A0EFC1100793AD4 /* ProductsDetailView.swift in Sources */,
+				F17629292A16B9EF00B50172 /* SaleRowView.swift in Sources */,
 				C9B67FCA2A0EFD4B00793AD4 /* SalesDetailView.swift in Sources */,
 				F1F238FD2A156A5700C95E1D /* ProductsListView.swift in Sources */,
 				C9B67FC22A0EFCC400793AD4 /* PurchaseViewModels.swift in Sources */,
@@ -289,6 +296,7 @@
 				C9B67FAE2A0EFAE200793AD4 /* UserDetailView.swift in Sources */,
 				C9B67FF42A0F090400793AD4 /* ProductB.swift in Sources */,
 				C9B67FBC2A0EFC3500793AD4 /* PurchaseEditView.swift in Sources */,
+				F17629272A16B98D00B50172 /* UserRowView.swift in Sources */,
 				C9B67FCC2A0EFD5C00793AD4 /* Menu.swift in Sources */,
 				C9B67FCE2A0EFD6900793AD4 /* Login.swift in Sources */,
 				C9B67FC82A0EFD2700793AD4 /* SalesEditView.swift in Sources */,
