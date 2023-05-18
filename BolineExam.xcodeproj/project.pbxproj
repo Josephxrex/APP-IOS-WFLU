@@ -41,6 +41,7 @@
 		F17B35EE2A15759C001634BC /* Component_TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17B35ED2A15759C001634BC /* Component_TextField.swift */; };
 		F1D625A32A16A4E000A4B825 /* SalesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D625A22A16A4E000A4B825 /* SalesListView.swift */; };
 		F1D625A52A16A4FE00A4B825 /* UsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D625A42A16A4FE00A4B825 /* UsersListView.swift */; };
+		F1D625A72A16AEE000A4B825 /* ProductRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D625A62A16AEE000A4B825 /* ProductRowView.swift */; };
 		F1F238FD2A156A5700C95E1D /* ProductsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F238FC2A156A5700C95E1D /* ProductsListView.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +78,7 @@
 		F17B35ED2A15759C001634BC /* Component_TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_TextField.swift; sourceTree = "<group>"; };
 		F1D625A22A16A4E000A4B825 /* SalesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesListView.swift; sourceTree = "<group>"; };
 		F1D625A42A16A4FE00A4B825 /* UsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListView.swift; sourceTree = "<group>"; };
+		F1D625A62A16AEE000A4B825 /* ProductRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRowView.swift; sourceTree = "<group>"; };
 		F1F238FC2A156A5700C95E1D /* ProductsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,6 +178,7 @@
 				C9B67FAB2A0EFAA900793AD4 /* UserEditView.swift */,
 				C9B67FAD2A0EFAE200793AD4 /* UserDetailView.swift */,
 				F1D625A42A16A4FE00A4B825 /* UsersListView.swift */,
+				F1D625A62A16AEE000A4B825 /* ProductRowView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				C9B67FBE2A0EFC9100793AD4 /* PurchaseDetailView.swift in Sources */,
 				C9B67F932A0EF87900793AD4 /* BolineExamApp.swift in Sources */,
 				F1D625A52A16A4FE00A4B825 /* UsersListView.swift in Sources */,
+				F1D625A72A16AEE000A4B825 /* ProductRowView.swift in Sources */,
 				C9B67FE82A0F074800793AD4 /* UserB.swift in Sources */,
 				C9B67FB02A0EFB1000793AD4 /* UserViewModel.swift in Sources */,
 				C9B67FF22A0F08C100793AD4 /* PurchaseB.swift in Sources */,

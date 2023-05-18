@@ -1,10 +1,3 @@
-//
-//  RowView.swift
-//  BolineExam
-//
-//  Created by ISSC_611_2023 on 17/05/23.
-//
-
 import SwiftUI
 
 struct ProductRowView: View {
