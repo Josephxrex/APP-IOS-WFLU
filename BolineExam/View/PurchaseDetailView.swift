@@ -15,9 +15,8 @@ struct PurchaseDetailsView: View {
     var body: some View {
       Form {
         Section(header: Text("Purchase")) {
-            Text(purchase.id)
-            Text()
-          Text(purchase.name)
+            Text(purchase.idP)
+            Text(purchase.name)
             Text(purchase.pieces)
              
         }
@@ -32,8 +31,8 @@ struct PurchaseDetailsView: View {
       .onDisappear() {
         print("PurchaseDetailView.onDisappear()")
       }
-      .sheet(isPresented: self.presentEditPurchaseSheet) {
-        PurchaseEditView(viewModel: PurchaseEditView(purchase: purchase), mode: .edit) { result in
+      .sheet(isPresented: self.$presentEditPurchaseSheet) {
+        PurchaseEditView(viewModel: PurchaseViewModel(purchase: purchase), mode: .edit) { result in
           if case .success(let action) = result, action == .delete {
             self.presentationMode.wrappedValue.dismiss()
           }
