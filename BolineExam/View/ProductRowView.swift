@@ -17,11 +17,3 @@ struct ProductRowView: View {
         }
     }
 }
-
-struct ProductRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductRowView(product: Product(name: "PC GAMER", description: "prueba", units: "5", cost: "5", price: "4", utility: "7"))
-            .previewLayout(
-                .fixed(width: 400, height: 60))
-    }
-}
