@@ -7,10 +7,34 @@
 
 import SwiftUI
 
+
+
+var products = [Product(name: "name product", description: "this is a sample description", units: "4", cost: "3", price: "2", utility: "1"),Product(name: "PC GAMER", description: "prueba", units: "5", cost: "5", price: "4", utility: "7")]
+
 struct ProductsListView: View {
+    
+    @StateObject var productsViewModel = ProductsViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView{
+            List {
+                ForEach(productsViewModel.products) { product in
+                    NavigationLink(destination: ProductDetailsView(product: product)) {
+                        ProductRowView(product: product)
+                    }
+                }
+                .onDelete(){
+                    indexSet in
+                    productsViewModel.removeProducts(atOffsets: indexSet)
+                }
+            }.navigationTitle("Products")
+             .onAppear() {
+                productsViewModel.subscribe()
+            }
+        }
+        
     }
+    
 }
 
 struct ProductsListView_Previews: PreviewProvider {
