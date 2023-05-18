@@ -1,25 +1,24 @@
-//
-//  UsersListView.swift
-//  BolineExam
-//
-//  Created by ISSC_611_2023 on 18/05/23.
-//
-
 import SwiftUI
 
-var userViewModel = UsersViewModel()
-
 struct UsersListView: View {
+    
+    @StateObject var userViewModel = UsersViewModel()
+    
     var body: some View {
-        NavigationView(
+        NavigationView{
             List{
                 ForEach(userViewModel.users) {
                     user in NavigationLink(destination: UserDetailView(user: user)){
-                        //ProductRowView(user:user)
+                        UserRowView(user:user)
                     }
                 }
-            }
-        )
+                .onDelete(){
+                    indexSet in userViewModel.removeUsers(atOffsets: indexSet)
+                }
+            }.onAppear(){
+                    userViewModel.subscribe()
+                }
+        }.navigationTitle("Users")
     }
 }
 
