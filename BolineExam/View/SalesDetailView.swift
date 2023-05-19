@@ -3,7 +3,7 @@ import SwiftUI
 struct SalesDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @State var presentEditMovieSheet = false
+    @State var presentEditSaleSheet = false
     
     var sale: SalesB
     
@@ -20,17 +20,17 @@ struct SalesDetailView: View {
                 Section(header: Text("Sale")) {
                     Text(sale.name)
                     Text(sale.quantity)
-                    Text(sale.idVenta)
-                    Text(sale.idCompra)
+                    Text(sale.idv)
+                    Text(sale.idc)
                     Text(sale.pieces)
                     Text(sale.pieces)
-                    Text(sale.subTotal)
+                    Text(sale.subtotal)
                     Text(sale.total)
                 }
             }
             .navigationBarTitle(sale.name)
             .navigationBarItems(trailing: editButton {
-                self.presentEditMovieSheet.toggle()
+                self.presentEditSaleSheet.toggle()
             })
             .onAppear() {
                 print("UserDetailsView.onAppear() for \(self.sale.name)")
@@ -38,7 +38,7 @@ struct SalesDetailView: View {
             .onDisappear() {
                 print("UserDetailsView.onDisappear()")
             }
-            .sheet(isPresented: self.$presentEditMovieSheet) {
+            .sheet(isPresented: self.$presentEditSaleSheet) {
                 SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .edit) { result in
                     if case .success(let action) = result, action == .delete {
                         self.presentationMode.wrappedValue.dismiss()
@@ -50,7 +50,7 @@ struct SalesDetailView: View {
     
     struct MovieDetailsView_Previews: PreviewProvider {
         static var previews: some View {
-            let sale = SalesB(name: "", quantity: "", idVenta: "", idCompra: "", pieces: "", subTotal: "", total: "")
+            let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
             return
                 NavigationView {
                     SalesDetailView(sale: sale)
