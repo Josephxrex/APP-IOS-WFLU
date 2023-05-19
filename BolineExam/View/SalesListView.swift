@@ -4,8 +4,19 @@ import SwiftUI
 
 struct SalesListView: View {
     
-    @StateObject var saleViewModel = SalesViewModel()
+    //Variables de entorno y globales
+    @Environment(\.presentationMode) var presentationMode
+    @State var presentAddSaleSheet = false
     
+    @StateObject var saleViewModel = SalesViewModel()
+    //Funciones
+    private func addButton(action: @escaping () -> Void) -> some View {
+        Button(action: { action() }) {
+            Text("+").font(.largeTitle)
+        }
+    }
+    
+    //Cuerpo
     var body: some View {
         NavigationView{
             List{
@@ -15,12 +26,24 @@ struct SalesListView: View {
                     }
                 }
                 .onDelete(){
-                    indexSet in userViewModel.removeUsers(atOffsets: indexSet)
+                    indexSet in saleViewModel.removeSales(atOffsets: indexSet)
                 }
-            }.onAppear(){
-                    userViewModel.subscribe()
+            }.navigationTitle("Sales")
+                .navigationBarItems(trailing: addButton {
+                    self.presentAddSaleSheet.toggle()
+            })
+            .onAppear(){
+                    saleViewModel.subscribe()
                 }
-        }.navigationTitle("Sales")
+            .sheet(isPresented: self.$presentAddSaleSheet){
+                let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
+                SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .new) { result in
+                    if case .success(let action) = result, action == .delete {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 

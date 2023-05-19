@@ -14,7 +14,7 @@ class SalesViewModels: ObservableObject {
     private let db = Firestore.firestore()
     private let collection = "sale" // Nombre de la colección en la base de datos
     
-    init(sale: SalesB = SalesB(name:"",quantity: "",idVenta: "",idCompra: "",pieces: "",subTotal: "",total: "")) {
+    init(sale: SalesB = SalesB(name:"",quantity: "",idv: "",idc: "",pieces: "",subtotal: "",total: "")) {
         self.sale = sale
         
         self.$sale
@@ -22,7 +22,7 @@ class SalesViewModels: ObservableObject {
             .sink{[weak self] sale in self?.modified = true}.store(in: &self.cancellables)
     }
     
-    func addSale(_ sale: SalesB) {
+    private func addSale(_ sale: SalesB) {
         do {
             _ = try db.collection(collection).addDocument(from: sale)
         } catch {
@@ -30,7 +30,7 @@ class SalesViewModels: ObservableObject {
         }
     }
     
-    func updateSale(_ sale: SalesB) {
+    private func updateSale(_ sale: SalesB) {
         if let saleID = sale.id {
             do {
                 try db.collection(collection).document(saleID).setData(from: sale)
@@ -40,7 +40,7 @@ class SalesViewModels: ObservableObject {
         }
     }
     
-    func updateOrAddSale() {
+    private func updateOrAddSale() {
         if let _ = sale.id {
             self.updateSale(self.sale)
         }else{
@@ -48,7 +48,7 @@ class SalesViewModels: ObservableObject {
         }
     }
     
-    func deleteSale() {
+    private func deleteSale() {
         if let saleID = sale.id {
             db.collection(collection).document(saleID).delete { error in
                 if let error = error {

@@ -39,11 +39,11 @@ struct SalesEditView: View {
           Section(header: Text("Sale Data")) {
             TextField("Name", text: $viewModel.sale.name)
             TextField("Quantity", text: $viewModel.sale.quantity)
-            TextField("IDVenta", text: $viewModel.sale.idVenta)
-              TextField("DCompra", text: $viewModel.sale.idCompra)
+            TextField("IDVenta", text: $viewModel.sale.idv)
+              TextField("DCompra", text: $viewModel.sale.idc)
             TextField("Pieces", text: $viewModel.sale.pieces)
-            TextField("Subtotal", text: $viewModel.sale.subTotal)
-              TextField("Total", text: $viewModel.sale.total)
+            TextField("Subtotal", text: $viewModel.sale.subtotal)
+             TextField("Total", text: $viewModel.sale.total)
           }
            
           if mode == .edit {
@@ -100,7 +100,7 @@ struct SalesEditView: View {
  
 struct SalesEditView_Previews: PreviewProvider {
   static var previews: some View {
-      let sale = SalesB(name: "", quantity: "", idVenta: "", idCompra: "", pieces: "", subTotal: "", total: "")
+      let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
     let saleViewModel = SalesViewModels(sale: sale)
     return SalesEditView(viewModel: saleViewModel, mode: .edit)
   }

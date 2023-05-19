@@ -2,7 +2,21 @@ import SwiftUI
 
 struct UsersListView: View {
     
+    //Variables de entorno y globales
+    @Environment(\.presentationMode) var presentationMode
+    @State var presentAddUserSheet = false
+    
     @StateObject var userViewModel = UsersViewModel()
+    
+    //Funciones
+    private func addButton(action: @escaping () -> Void) -> some View {
+        Button(action: { action() }) {
+            Text("+").font(.largeTitle)
+        }
+    }
+    
+    
+
     
     var body: some View {
         NavigationView{
@@ -15,10 +29,22 @@ struct UsersListView: View {
                 .onDelete(){
                     indexSet in userViewModel.removeUsers(atOffsets: indexSet)
                 }
-            }.onAppear(){
+            }.navigationTitle("Users")
+                .navigationBarItems(trailing: addButton {
+                    self.presentAddUserSheet.toggle()
+            })
+            .onAppear(){
                     userViewModel.subscribe()
                 }
-        }.navigationTitle("Users")
+            .sheet(isPresented: self.$presentAddUserSheet){
+                let user = UserB(name:"",lastname:"",age: "",gender: "",email: "",password: "")
+                UserEditView(viewModel: UserViewModels(user: user), mode: .new) { result in
+                    if case .success(let action) = result, action == .delete {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -41,7 +41,7 @@ struct UserEditView: View {
             TextField("LastName", text: $viewModel.user.lastname)
             TextField("Age", text: $viewModel.user.age)
             TextField("Gender", text: $viewModel.user.gender)
-            TextField("E-mail", text: $viewModel.user.emial)
+            TextField("E-mail", text: $viewModel.user.email)
             TextField("Password", text: $viewModel.user.password)
           }
            
@@ -99,7 +99,7 @@ struct UserEditView: View {
  
 struct MovieEditView_Previews: PreviewProvider {
   static var previews: some View {
-    let user = UserB(name:"Pigy",lastname:"Puerk",age: "23",gender: "M",emial: "",password: "")
+    let user = UserB(name:"Pigy",lastname:"Puerk",age: "23",gender: "M",email: "",password: "")
     let userViewModel = UserViewModels(user: user)
     return UserEditView(viewModel: userViewModel, mode: .edit)
   }
