@@ -25,8 +25,8 @@ struct Login: View {
     
     var body: some View {
         NavigationView{
-            VStack {
-                Text("Login").font(.largeTitle)
+            Color.mint.opacity(0.6).edgesIgnoringSafeArea(.all).overlay(VStack {
+                Text("Login").font(.largeTitle).foregroundColor(Color.white)
                 
                 Component_TextField(textFieldTitle: "Email", textFieldText: $email)
                 
@@ -40,7 +40,7 @@ struct Login: View {
                 Button("Login"){
                     // Aquí puedes agregar la acción que se ejecutará al hacer clic en el botón de inicio de sesión
                     checkLogin()
-                }.foregroundColor(Color.blue)
+                }.foregroundColor(Color.white)
                     .font(.headline)
                     .frame(width: 220, height: 60)
                     .alert(isPresented: $alerta){
@@ -62,6 +62,8 @@ struct Login: View {
                 })
             }
             .padding()
+        )
+            
             
             
         }

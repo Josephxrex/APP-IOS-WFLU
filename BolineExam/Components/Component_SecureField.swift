@@ -14,7 +14,8 @@ struct Component_SecureField: View {
     
     var body: some View {
         SecureField(secureFieldTitle, text: secureFieldText).padding()
-            .background(Color.gray.opacity(0.2))
+            .background(Color.blue.opacity(0.2))
+            .foregroundColor(Color.gray)
             .cornerRadius(5.0)
             .padding(.horizontal)
     }

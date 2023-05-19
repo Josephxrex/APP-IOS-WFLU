@@ -28,6 +28,7 @@ struct SalesListView: View {
                 .onDelete(){
                     indexSet in saleViewModel.removeSales(atOffsets: indexSet)
                 }
+                .foregroundColor(Color.mint)
             }.navigationTitle("Sales")
                 .navigationBarItems(trailing: addButton {
                     self.presentAddSaleSheet.toggle()
