@@ -4,7 +4,7 @@ struct SaleRowView: View {
     var sale: SalesB
     var body: some View {
         HStack{
-            Image(systemName: "person.fill")
+            Image(systemName: "tag.fill")
                 .resizable()
                 .frame(width: 40, height: 40).padding(10)
             VStack(alignment: .leading){
