@@ -13,7 +13,7 @@ struct PurchaseRowView: View {
     var purchase: PurchaseB
     var body: some View {
         HStack{
-            Image(systemName: "person.fill")
+            Image(systemName: "cart.fill")
                 .resizable()
                 .frame(width: 40, height: 40).padding(10)
             VStack(alignment: .leading){
