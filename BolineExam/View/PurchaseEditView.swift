@@ -19,69 +19,85 @@ struct PurchaseEditView: View {
     var mode: ModePurchase = .new
     var completionHandler: ((Result<ActionPurchase, Error>) -> Void)?
 
-    @State private var showAlert = false;
-    @State private var title = "";
-    @State private var message = "";
+    
+    var cancelButton: some View {
+      Button(action: { self.handleCancelTapped() }) {
+        Text("Cancel")
+      }
+    }
+     
+    var saveButton: some View {
+      Button(action: { self.handleDoneTapped() }) {
+        Text(mode == .new ? "Done" : "Save")
+      }
+      .disabled(!viewModel.modified)
+    }
     
     var body: some View {
         NavigationView{
-            VStack{
-                Text("Purchases").font(.largeTitle).padding()
-                
-                Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.purchase.name)
-                    //Unidades
-                Component_TextField(textFieldTitle: "Units", textFieldText: $viewModel.purchase.pieces)
-                    .keyboardType(.numberPad)
-                    .onReceive(Just(viewModel.purchase.pieces)){
-                    value in
-                    let filtered = "\(value)".filter { "0123456789".contains($0) }
-                    if filtered != value {
-                        self.viewModel.purchase.pieces = "\(filtered)"
+            VStack {
+                    Section(header: Text("Purchase data")) {
+                        //Unidades
+                        TextField("ida", text:$viewModel.purchase.ida).padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(5.0)
+                            .padding(.horizontal)
+                            .keyboardType(.numberPad)
+                            .onReceive(Just(viewModel.purchase.pieces)){
+                            value in
+                            let filtered = "\(value)".filter { "0123456789".contains($0) }
+                            if filtered != value {
+                                self.viewModel.purchase.pieces = "\(filtered)"
+                            }
+                            }
+                        
+                        TextField("Name", text:$viewModel.purchase.name).padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(5.0)
+                            .padding(.horizontal)
+
+                        TextField("Units", text:$viewModel.purchase.pieces).padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(5.0)
+                            .padding(.horizontal)
+                            .keyboardType(.numberPad)
+                            .onReceive(Just(viewModel.purchase.pieces)){
+                            value in
+                            let filtered = "\(value)".filter { "0123456789".contains($0) }
+                            if filtered != value {
+                                self.viewModel.purchase.pieces = "\(filtered)"
+                            }
+                            }
+                            
                     }
-                    };
-
-                
-                Button("Done") {
-                    validateFields()
-                }.padding()
-                    .alert(isPresented: $showAlert){
-                    Alert(title: Text(title), message: Text(message))
+                    
+                    if mode == .edit {
+                     Section {
+                      Button("Delete Purchase") { self.presentActionSheet.toggle()
+                          self.handleDeleteTapped()
+                      }
+                        .foregroundColor(.red)
+                     }
                     }
-
-                
-
-                if mode == .edit {
-                 Section {
-                  Button("Delete Purchase") { self.presentActionSheet.toggle() }
-                    .foregroundColor(.red)
-                 }
                 }
-                
-                
+            .navigationTitle(mode == .new ? "New Purchase" : "Edit:"+viewModel.purchase.name)
+            .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
+            .navigationBarItems(
+              leading: cancelButton,
+              trailing: saveButton
+            )
+            .actionSheet(isPresented: $presentActionSheet) {
+              ActionSheet(title: Text("Are you sure?"),
+                          buttons: [
+                            .destructive(Text("Delete Purchase"),
+                                         action: { self.handleDeleteTapped() }),
+                            .cancel()
+                          ])
             }
         }
     }
     
-    //Validar campos
-    func validateFields(){
-        if([viewModel.purchase.name, viewModel.purchase.pieces].contains("")){
-            title = "Error"
-            message = "One or more fields are empty"
-            showAlert = true
-        }else{
-            self.handleDoneTapped()
-            clean()
-            title="Success"
-            message="The fields were saved succesfully"
-            showAlert = true
-        }
-    }
-    
-    func clean(){
-        viewModel.purchase.name=""
-        viewModel.purchase.idP=""
-        viewModel.purchase.pieces=""
-    }
+
 
         // Action Handlers
      
@@ -110,3 +126,5 @@ struct Purchase_Previewss: PreviewProvider {
         PurchaseEditView()
     }
 }
+
+
