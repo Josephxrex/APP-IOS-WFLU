@@ -30,7 +30,9 @@ struct ProductsEditView: View {
     var cancelButton: some View {
       Button(action: { self.handleCancelTapped() }) {
         Text("Cancel")
-      }
+      }.foregroundColor(Color.white)
+            .font(.headline)
+            .frame(width: 220, height: 60)
     }
      
     var saveButton: some View {
@@ -38,24 +40,31 @@ struct ProductsEditView: View {
         Text(mode == .new ? "Done" : "Save")
       }
       .disabled(!viewModel.modified)
+      .foregroundColor(Color.white)
+            .font(.headline)
+            .frame(width: 220, height: 60)
     }
+    
     var body: some View {
         NavigationView{
-            VStack{
-                
+           Color.mint.opacity(0.6).edgesIgnoringSafeArea(.all).overlay(
+                VStack{
                 Section(header: Text("Product data")) {
                     TextField("Name", text:$viewModel.product.name).padding()
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.gray)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                     
                     TextField("Description", text:$viewModel.product.description).padding()
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.gray)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                     
                     TextField("Units", text:$viewModel.product.units).padding()
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.gray)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -68,7 +77,8 @@ struct ProductsEditView: View {
                         }
                     
                     TextField("Cost", text:$viewModel.product.cost).padding()
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.gray)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -81,7 +91,8 @@ struct ProductsEditView: View {
                         }
                     
                     TextField("Price", text:$viewModel.product.price).padding()
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.gray)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -94,7 +105,8 @@ struct ProductsEditView: View {
                         }
                     
                     TextField("Utility", text:$viewModel.product.utility).padding()
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.gray)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -106,8 +118,6 @@ struct ProductsEditView: View {
                         }
                         }
                     
-
-
                 if mode == .edit {
                  Section {
                   Button("Delete Product") { self.presentActionSheet.toggle()
@@ -117,8 +127,10 @@ struct ProductsEditView: View {
                  }
                 }
             }
-        }
-            .navigationTitle(mode == .new ? "New Product" : "Edit:"+viewModel.product.name)
+        }//Fin de vstack
+            )//Cierre de Overlay
+            .foregroundColor(.white)
+            .navigationTitle(mode == .new ? "New Product" : "Edit:"+viewModel.product.name).foregroundColor(.white)
             .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
             .navigationBarItems(
               leading: cancelButton,
@@ -132,8 +144,8 @@ struct ProductsEditView: View {
                             .cancel()
                           ])
             }
-                }
-    }
+    }//Fin de NavigationView
+}//Fin de view
     
 
         // Action Handlers
