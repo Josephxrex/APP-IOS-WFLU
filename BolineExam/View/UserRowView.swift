@@ -20,7 +20,7 @@ struct UserRowView: View {
 
 struct UserRowView_Previews: PreviewProvider {
     static var previews: some View {
-        UserRowView(user: UserB(name: "", lastname: "", age: "", gender: "", emial: "", password: ""))
+        UserRowView(user: UserB(name: "", lastname: "", age: "", gender: "", email: "", password: ""))
             .previewLayout(
                 .fixed(width: 400, height: 60))
     }

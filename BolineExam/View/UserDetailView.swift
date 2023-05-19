@@ -22,7 +22,7 @@ struct UserDetailView: View {
                     Text(user.lastname)
                     Text(user.gender)
                     Text(user.age)
-                    Text(user.emial)
+                    Text(user.email)
                 }
             }
             .navigationBarTitle(user.name)
@@ -47,7 +47,7 @@ struct UserDetailView: View {
     
     struct MovieDetailsView_Previews: PreviewProvider {
         static var previews: some View {
-            let user = UserB(name:"",lastname:"",age: "",gender: "",emial: "",password: "")
+            let user = UserB(name:"",lastname:"",age: "",gender: "",email: "",password: "")
             return
                 NavigationView {
                     UserDetailView(user: user)

@@ -7,7 +7,7 @@ struct UserB: Identifiable , Codable {
     var lastname: String
     var age:String
     var gender:String
-    var emial:String
+    var email:String
     var password:String
     enum CodingKeysUserB: String, CodingKey {
         case id
