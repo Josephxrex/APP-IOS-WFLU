@@ -35,24 +35,47 @@ struct UserEditView: View {
      
     var body: some View {
       NavigationView {
-        Form {
-          Section(header: Text("User Name")) {
-            TextField("Name", text: $viewModel.user.name)
-            TextField("LastName", text: $viewModel.user.lastname)
-            TextField("Age", text: $viewModel.user.age)
-            TextField("Gender", text: $viewModel.user.gender)
-            TextField("E-mail", text: $viewModel.user.email)
-            TextField("Password", text: $viewModel.user.password)
+          VStack{
+              Section(header: Text("User Name")) {
+                  TextField("Name", text: $viewModel.user.name).padding()
+                      .background(Color.gray.opacity(0.2))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                  
+                  TextField("LastName", text: $viewModel.user.lastname).padding()
+                      .background(Color.gray.opacity(0.2))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                  
+                  TextField("Age", text: $viewModel.user.age).padding()
+                      .background(Color.gray.opacity(0.2))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                  
+                  TextField("Gender", text: $viewModel.user.gender).padding()
+                      .background(Color.gray.opacity(0.2))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                  
+                  TextField("E-mail", text: $viewModel.user.email).padding()
+                      .background(Color.gray.opacity(0.2))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                  
+                  TextField("Password", text: $viewModel.user.password).padding()
+                      .background(Color.gray.opacity(0.2))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+              }
+              
+              if mode == .edit {
+                  Section {
+                      Button("Delete User") { self.presentActionSheet.toggle() }
+                          .foregroundColor(.red)
+                  }
+              }
           }
-           
-          if mode == .edit {
-            Section {
-              Button("Delete User") { self.presentActionSheet.toggle() }
-                .foregroundColor(.red)
-            }
-          }
-        }
-        .navigationTitle(mode == .new ? "New User" : viewModel.user.name)
+        .navigationTitle(mode == .new ? "New User" : "Edit:"+viewModel.user.name)
         .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
         .navigationBarItems(
           leading: cancelButton,

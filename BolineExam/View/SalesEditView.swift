@@ -35,15 +35,43 @@ struct SalesEditView: View {
      
     var body: some View {
       NavigationView {
-        Form {
+        VStack {
           Section(header: Text("Sale Data")) {
-            TextField("Name", text: $viewModel.sale.name)
-            TextField("Quantity", text: $viewModel.sale.quantity)
-            TextField("IDVenta", text: $viewModel.sale.idv)
-              TextField("DCompra", text: $viewModel.sale.idc)
-            TextField("Pieces", text: $viewModel.sale.pieces)
-            TextField("Subtotal", text: $viewModel.sale.subtotal)
-             TextField("Total", text: $viewModel.sale.total)
+            TextField("Name", text: $viewModel.sale.name).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
+            TextField("Quantity", text: $viewModel.sale.quantity).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
+            TextField("IDVenta", text: $viewModel.sale.idv).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
+              TextField("DCompra", text: $viewModel.sale.idc).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
+            TextField("Pieces", text: $viewModel.sale.pieces).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
+            TextField("Subtotal", text: $viewModel.sale.subtotal).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
+             TextField("Total", text: $viewModel.sale.total).padding()
+                  .background(Color.gray.opacity(0.2))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+              
           }
            
           if mode == .edit {
@@ -53,7 +81,7 @@ struct SalesEditView: View {
             }
           }
         }
-        .navigationTitle(mode == .new ? "New Sale" : viewModel.sale.name)
+        .navigationTitle(mode == .new ? "New Sale" : "Edit:"+viewModel.sale.name)
         .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
         .navigationBarItems(
           leading: cancelButton,
