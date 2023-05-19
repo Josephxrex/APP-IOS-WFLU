@@ -22,7 +22,7 @@ struct ProductsListView: View {
     //funciones
     private func addButton(action: @escaping () -> Void) -> some View {
         Button(action: { action() }) {
-            Text("+").font(.largeTitle)
+            Text("+").font(.largeTitle).foregroundColor(.blue)
         }
     }
     
@@ -32,13 +32,14 @@ struct ProductsListView: View {
                 ForEach(productsViewModel.products) { product in
                     NavigationLink(destination: ProductDetailsView(product: product)) {
                         ProductRowView(product: product)
-                    }
+                    }.listRowBackground(Color.mint)
                 }
                 .onDelete(){
                     indexSet in
                     productsViewModel.removeProducts(atOffsets: indexSet)
                 }
-            }.navigationTitle("Products")
+            }.background(Color.cyan).scrollContentBackground(.hidden)
+            .navigationTitle("Products")
                 .navigationBarItems(trailing: addButton {
                     self.presentAddProductSheet.toggle()
             })

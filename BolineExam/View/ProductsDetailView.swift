@@ -30,7 +30,7 @@ struct ProductDetailsView: View {
           Text(product.price)
           Text(product.utility)
              
-        }
+        }.listRowBackground(Color.mint).foregroundColor(.white)
       }
       .navigationBarTitle(product.name)
       .navigationBarItems(trailing: editButton {
