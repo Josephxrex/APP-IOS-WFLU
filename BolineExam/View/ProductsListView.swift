@@ -13,7 +13,18 @@ var products = [Product(name: "name product", description: "this is a sample des
 
 struct ProductsListView: View {
     
+    //Variables de entorno y globales
+    @Environment(\.presentationMode) var presentationMode
+    @State var presentAddProductSheet = false
+    
     @StateObject var productsViewModel = ProductsViewModel()
+    
+    //funciones
+    private func addButton(action: @escaping () -> Void) -> some View {
+        Button(action: { action() }) {
+            Text("+").font(.largeTitle)
+        }
+    }
     
     var body: some View {
         NavigationView{
@@ -28,9 +39,21 @@ struct ProductsListView: View {
                     productsViewModel.removeProducts(atOffsets: indexSet)
                 }
             }.navigationTitle("Products")
+                .navigationBarItems(trailing: addButton {
+                    self.presentAddProductSheet.toggle()
+            })
              .onAppear() {
                 productsViewModel.subscribe()
             }
+             .sheet(isPresented: self.$presentAddProductSheet){
+                 let product = Product(name: "", description: "", units: "", cost: "", price: "", utility: "")
+                 ProductsEditView(viewModel: ProductViewModel(product: product), mode: .new) { result in
+                     if case .success(let action) = result, action == .delete {
+                         self.presentationMode.wrappedValue.dismiss()
+                     }
+                 }
+             }
+
         }
         
     }

@@ -8,7 +8,19 @@
 import SwiftUI
 
 struct PurchasesListView: View {
+    //Variables de entorno y globales
+    @Environment(\.presentationMode) var presentationMode
+    @State var presentAddPurchaseSheet = false
+    
     @StateObject var purchaseViewModel = PurchaseViewModels()
+    
+    //Funciones
+    private func addButton(action: @escaping () -> Void) -> some View {
+        Button(action: { action() }) {
+            Text("+").font(.largeTitle)
+        }
+    }
+    
     
     var body: some View {
         NavigationView{
@@ -23,9 +35,20 @@ struct PurchasesListView: View {
                     purchaseViewModel.removePurchases(atOffsets: indexSet)
                 }
             }.navigationTitle("Purchases")
+                .navigationBarItems(trailing: addButton {
+                    self.presentAddPurchaseSheet.toggle()
+            })
              .onAppear() {
                  purchaseViewModel.subscribe()
             }
+             .sheet(isPresented: self.$presentAddPurchaseSheet){
+                 let purchase = PurchaseB(name: "", ida: "", pieces: "")
+                 PurchaseEditView(viewModel: PurchaseViewModel(purchase: purchase), mode: .new) { result in
+                     if case .success(let action) = result, action == .delete {
+                         self.presentationMode.wrappedValue.dismiss()
+                     }
+                 }
+             }
         }
         
     }

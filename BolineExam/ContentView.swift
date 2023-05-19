@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    let product = Product(name: "name product", description: "this is a sample description", units: "4", cost: "3", price: "2", utility: "1")
     var body: some View {
-        //ProductDetailsView(product: product)
-        //Login()
-        SalesListView()
+        Login()
+
     }
 }
 
