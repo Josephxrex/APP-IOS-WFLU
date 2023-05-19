@@ -32,6 +32,7 @@ struct Login: View {
                 
                 Spacer().frame(height: 20)
                 
+
                 Component_SecureField(secureFieldTitle: "Password", secureFieldText: $password)
                 
                 Spacer().frame(height: 20)
@@ -46,11 +47,13 @@ struct Login: View {
                         Alert(title: Text("Alerta"),message:Text("\(mensaje)"),dismissButton: .default(Text("Ok")))
                     }
                 
-                
+                NavigationLink(destination: Menu(), isActive: $isValidated) {
+                                    EmptyView()
+                }
                 
 
                 
-                NavigationLink(destination: ProductsEditView(), label: {
+                NavigationLink(destination: UserEditView(), label: {
                     Text("Sign Up").foregroundColor(.white)
                         .font(.headline)
                         .frame(width: 220, height: 60)
@@ -73,9 +76,7 @@ struct Login: View {
         } else {
           if(email == "correo@gmail.com" && password == "contraseña"){
               isValidated = true
-              NavigationLink(destination: ProductsEditView(), isActive: $isValidated) {
-                                  EmptyView()
-              }
+              
           }
         }
     }
