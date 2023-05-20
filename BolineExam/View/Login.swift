@@ -25,7 +25,7 @@ struct Login: View {
     
     var body: some View {
         NavigationView{
-            Color.mint.opacity(0.6).edgesIgnoringSafeArea(.all).overlay(VStack {
+            Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack {
                 Text("Login").font(.largeTitle).foregroundColor(Color.white)
                 
                 Component_TextField(textFieldTitle: "Email", textFieldText: $email)
@@ -54,11 +54,13 @@ struct Login: View {
 
                 
                 NavigationLink(destination: UserEditView(), label: {
-                    Text("Sign Up").foregroundColor(.white)
+                    Text("Sign Up")
                         .font(.headline)
+                        .foregroundColor(.white)
                         .frame(width: 220, height: 60)
-                        .background(Color.blue)
+                        .background(Color("Botones"))
                         .cornerRadius(15.0)
+                        
                 })
             }
             .padding()

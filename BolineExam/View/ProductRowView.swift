@@ -7,7 +7,7 @@ struct ProductRowView: View {
             Image(systemName: "bag.fill")
                 .resizable()
                 .frame(width: 40, height: 40).padding(10)
-                .foregroundColor(.blue)
+                .foregroundColor(Color("Iconos"))
             VStack(alignment: .leading){
                 Text(product.name).font(.title)
                 HStack{

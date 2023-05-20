@@ -30,14 +30,14 @@ struct ProductsEditView: View {
     var cancelButton: some View {
       Button(action: { self.handleCancelTapped() }) {
         Text("Cancel")
-      }.foregroundColor(Color.white)
+      }.foregroundColor(Color(.red))
             .font(.headline)
             .frame(width: 220, height: 60)
     }
      
     var saveButton: some View {
       Button(action: { self.handleDoneTapped() }) {
-        Text(mode == .new ? "Done" : "Save")
+          Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
       }
       .disabled(!viewModel.modified)
       .foregroundColor(Color.white)
@@ -47,24 +47,24 @@ struct ProductsEditView: View {
     
     var body: some View {
         NavigationView{
-           Color.mint.opacity(0.6).edgesIgnoringSafeArea(.all).overlay(
+           Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
                 VStack{
-                Section(header: Text("Product data")) {
+                    Section(header: Text("Product data").font(.largeTitle)) {
                     TextField("Name", text:$viewModel.product.name).padding()
-                        .background(Color.blue.opacity(0.2))
-                        .foregroundColor(.gray)
+                        .background(Color("Inputs"))
+                        .foregroundColor(.white)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                     
                     TextField("Description", text:$viewModel.product.description).padding()
-                        .background(Color.blue.opacity(0.2))
-                        .foregroundColor(.gray)
+                        .background(Color("Inputs"))
+                        .foregroundColor(.white)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                     
                     TextField("Units", text:$viewModel.product.units).padding()
-                        .background(Color.blue.opacity(0.2))
-                        .foregroundColor(.gray)
+                        .background(Color("Inputs"))
+                        .foregroundColor(.white)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -77,8 +77,8 @@ struct ProductsEditView: View {
                         }
                     
                     TextField("Cost", text:$viewModel.product.cost).padding()
-                        .background(Color.blue.opacity(0.2))
-                        .foregroundColor(.gray)
+                        .background(Color("Inputs"))
+                        .foregroundColor(.white)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -91,8 +91,8 @@ struct ProductsEditView: View {
                         }
                     
                     TextField("Price", text:$viewModel.product.price).padding()
-                        .background(Color.blue.opacity(0.2))
-                        .foregroundColor(.gray)
+                        .background(Color("Inputs"))
+                        .foregroundColor(.white)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -105,8 +105,8 @@ struct ProductsEditView: View {
                         }
                     
                     TextField("Utility", text:$viewModel.product.utility).padding()
-                        .background(Color.blue.opacity(0.2))
-                        .foregroundColor(.gray)
+                        .background(Color("Inputs"))
+                        .foregroundColor(.white)
                         .cornerRadius(5.0)
                         .padding(.horizontal)
                         .keyboardType(.numberPad)
@@ -124,6 +124,8 @@ struct ProductsEditView: View {
                       self.handleDeleteTapped()
                   }
                     .foregroundColor(.red)
+                    .font(.headline)
+                    .padding()
                  }
                 }
             }

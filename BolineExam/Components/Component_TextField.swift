@@ -13,8 +13,8 @@ struct Component_TextField: View {
     
     var body: some View {
         TextField(textFieldTitle, text: textFieldText).padding()
-            .background(Color.blue.opacity(0.2))
-            .foregroundColor(Color.gray)
+            .background(Color("Inputs"))
+            .foregroundColor(Color.white)
             .cornerRadius(5.0)
             .padding(.horizontal)
     }

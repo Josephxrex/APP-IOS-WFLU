@@ -36,7 +36,7 @@ struct Menu: View {
 
     var body: some View {
 
-        Color.cyan.edgesIgnoringSafeArea(.all).overlay(VStack{
+        Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack{
             Text("Welcome back!")
                 .font(.largeTitle.bold()).padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -49,12 +49,13 @@ struct Menu: View {
                         NavigationLink(destination: item.destination.edgesIgnoringSafeArea(.all)) {
                             HStack {
                                 Image(systemName: item.iconName)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(Color("Iconos"))
                                 Text(item.title)
                                     .font(.headline)
+                                    .foregroundColor(.white)
                             }
-                        }.listRowBackground(Color.mint)
-                    }.background( Color.cyan).scrollContentBackground(.hidden)
+                        }.listRowBackground(Color("FondoList"))
+                    }.background( Color("Fondo")).scrollContentBackground(.hidden)
         })
         }
     }
