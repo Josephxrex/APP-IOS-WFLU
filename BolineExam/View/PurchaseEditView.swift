@@ -28,18 +28,20 @@ struct PurchaseEditView: View {
      
     var saveButton: some View {
       Button(action: { self.handleDoneTapped() }) {
-        Text(mode == .new ? "Done" : "Save")
+        Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
       }
       .disabled(!viewModel.modified)
     }
     
     var body: some View {
         NavigationView{
+            Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
             VStack {
-                    Section(header: Text("Purchase data")) {
+                    Section(header: Text("Purchase data").font(.largeTitle)) {
                         //Unidades
                         TextField("ida", text:$viewModel.purchase.ida).padding()
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color("Inputs"))
+                            .foregroundColor(.white)
                             .cornerRadius(5.0)
                             .padding(.horizontal)
                             .keyboardType(.numberPad)
@@ -52,12 +54,14 @@ struct PurchaseEditView: View {
                             }
                         
                         TextField("Name", text:$viewModel.purchase.name).padding()
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color("Inputs"))
+                            .foregroundColor(.white)
                             .cornerRadius(5.0)
                             .padding(.horizontal)
 
                         TextField("Units", text:$viewModel.purchase.pieces).padding()
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color("Inputs"))
+                            .foregroundColor(.white)
                             .cornerRadius(5.0)
                             .padding(.horizontal)
                             .keyboardType(.numberPad)
@@ -77,10 +81,14 @@ struct PurchaseEditView: View {
                           self.handleDeleteTapped()
                       }
                         .foregroundColor(.red)
+                        .font(.headline)
+                        .padding()
                      }
                     }
-                }
-            .navigationTitle(mode == .new ? "New Purchase" : "Edit:"+viewModel.purchase.name)
+                }//Fin de Vstack
+            )//Cierre de Overlay
+            .foregroundColor(.white)
+            .navigationTitle(mode == .new ? "New Purchase" : "Edit:"+viewModel.purchase.name).foregroundColor(.white)
             .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
             .navigationBarItems(
               leading: cancelButton,

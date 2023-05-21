@@ -28,42 +28,49 @@ struct UserEditView: View {
      
     var saveButton: some View {
       Button(action: { self.handleDoneTapped() }) {
-        Text(mode == .new ? "Done" : "Save")
+        Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
       }
       .disabled(!viewModel.modified)
     }
      
     var body: some View {
       NavigationView {
+          Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
           VStack{
-              Section(header: Text("User Name")) {
+              Section(header: Text("User Name").font(.largeTitle)) {
                   TextField("Name", text: $viewModel.user.name).padding()
-                      .background(Color.gray.opacity(0.2))
+                      .background(Color("Inputs"))
+                      .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
                   
                   TextField("LastName", text: $viewModel.user.lastname).padding()
-                      .background(Color.gray.opacity(0.2))
+                      .background(Color("Inputs"))
+                      .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
                   
                   TextField("Age", text: $viewModel.user.age).padding()
-                      .background(Color.gray.opacity(0.2))
+                      .background(Color("Inputs"))
+                      .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
                   
                   TextField("Gender", text: $viewModel.user.gender).padding()
-                      .background(Color.gray.opacity(0.2))
+                      .background(Color("Inputs"))
+                      .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
                   
                   TextField("E-mail", text: $viewModel.user.email).padding()
-                      .background(Color.gray.opacity(0.2))
+                      .background(Color("Inputs"))
+                      .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
                   
                   TextField("Password", text: $viewModel.user.password).padding()
-                      .background(Color.gray.opacity(0.2))
+                      .background(Color("Inputs"))
+                      .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
               }
@@ -72,10 +79,14 @@ struct UserEditView: View {
                   Section {
                       Button("Delete User") { self.presentActionSheet.toggle() }
                           .foregroundColor(.red)
+                          .font(.headline)
+                          .padding()
                   }
               }
-          }
-        .navigationTitle(mode == .new ? "New User" : "Edit:"+viewModel.user.name)
+          }//Fin de Vstack
+          )//Cierre de Overlay
+          .foregroundColor(.white)
+        .navigationTitle(mode == .new ? "New User" : "Edit:"+viewModel.user.name).foregroundColor(.white)
         .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
         .navigationBarItems(
           leading: cancelButton,

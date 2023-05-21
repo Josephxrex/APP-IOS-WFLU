@@ -28,47 +28,55 @@ struct SalesEditView: View {
      
     var saveButton: some View {
       Button(action: { self.handleDoneTapped() }) {
-        Text(mode == .new ? "Done" : "Save")
+        Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
       }
       .disabled(!viewModel.modified)
     }
      
     var body: some View {
       NavigationView {
+        Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
         VStack {
-          Section(header: Text("Sale Data")) {
+          Section(header: Text("Sale Data").font(.largeTitle)) {
             TextField("Name", text: $viewModel.sale.name).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
             TextField("Quantity", text: $viewModel.sale.quantity).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
             TextField("IDVenta", text: $viewModel.sale.idv).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
               TextField("DCompra", text: $viewModel.sale.idc).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
             TextField("Pieces", text: $viewModel.sale.pieces).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
             TextField("Subtotal", text: $viewModel.sale.subtotal).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
              TextField("Total", text: $viewModel.sale.total).padding()
-                  .background(Color.gray.opacity(0.2))
+                  .background(Color("Inputs"))
+                  .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
@@ -78,10 +86,14 @@ struct SalesEditView: View {
             Section {
               Button("Delete Sale") { self.presentActionSheet.toggle() }
                 .foregroundColor(.red)
+                .font(.headline)
+                .padding()
             }
           }
-        }
-        .navigationTitle(mode == .new ? "New Sale" : "Edit:"+viewModel.sale.name)
+        }//Fin de Vstack
+        )//Cierre de Overlay
+        .foregroundColor(.white)
+        .navigationTitle(mode == .new ? "New Sale" : "Edit:"+viewModel.sale.name).foregroundColor(.white)
         .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
         .navigationBarItems(
           leading: cancelButton,
