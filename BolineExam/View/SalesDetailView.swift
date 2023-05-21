@@ -9,7 +9,7 @@ struct SalesDetailView: View {
     
     private func editButton(action: @escaping () -> Void) -> some View {
         Button(action: { action() }) {
-            Text("Edit")
+            Text("Edit").foregroundColor(Color("FondoList"))
         }
     }
     
@@ -26,17 +26,17 @@ struct SalesDetailView: View {
                     Text(sale.pieces)
                     Text(sale.subtotal)
                     Text(sale.total)
-                }
-            }
+                }.listRowBackground(Color("FondoList")).foregroundColor(.white)
+            }.background(Color("Fondo")).scrollContentBackground(.hidden)
             .navigationBarTitle(sale.name)
             .navigationBarItems(trailing: editButton {
                 self.presentEditSaleSheet.toggle()
             })
             .onAppear() {
-                print("UserDetailsView.onAppear() for \(self.sale.name)")
+                print("SalesDetailsView.onAppear() for \(self.sale.name)")
             }
             .onDisappear() {
-                print("UserDetailsView.onDisappear()")
+                print("SalesDetailsView.onDisappear()")
             }
             .sheet(isPresented: self.$presentEditSaleSheet) {
                 SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .edit) { result in

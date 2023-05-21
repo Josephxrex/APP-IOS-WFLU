@@ -9,7 +9,7 @@ struct UserDetailView: View {
     
     private func editButton(action: @escaping () -> Void) -> some View {
         Button(action: { action() }) {
-            Text("Edit")
+            Text("Edit").foregroundColor(Color("FondoList"))
         }
     }
     
@@ -23,8 +23,8 @@ struct UserDetailView: View {
                     Text(user.gender)
                     Text(user.age)
                     Text(user.email)
-                }
-            }
+                }.listRowBackground(Color("FondoList")).foregroundColor(.white)
+            }.background(Color("Fondo")).scrollContentBackground(.hidden)
             .navigationBarTitle(user.name)
             .navigationBarItems(trailing: editButton {
                 self.presentEditMovieSheet.toggle()

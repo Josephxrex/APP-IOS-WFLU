@@ -8,7 +8,7 @@ struct PurchaseDetailsView: View {
      
     private func editButton(action: @escaping () -> Void) -> some View {
       Button(action: { action() }) {
-        Text("Edit")
+        Text("Edit").foregroundColor(Color("FondoList"))
       }
     }
      
@@ -19,8 +19,8 @@ struct PurchaseDetailsView: View {
             Text(purchase.name)
             Text(purchase.pieces)
              
-        }
-      }
+        }.listRowBackground(Color("FondoList")).foregroundColor(.white)
+      }.background(Color("Fondo")).scrollContentBackground(.hidden)
       .navigationBarTitle("Purchase: " + purchase.name)
       .navigationBarItems(trailing: editButton {
         self.presentEditPurchaseSheet.toggle()
