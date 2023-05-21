@@ -7,6 +7,7 @@ struct UserRowView: View {
             Image(systemName: "person.fill")
                 .resizable()
                 .frame(width: 40, height: 40).padding(10)
+                .foregroundColor(Color("Iconos"))
             VStack(alignment: .leading){
                 Text(user.name).font(.title)
                 HStack{
@@ -15,13 +16,5 @@ struct UserRowView: View {
                 }
             }
         }
-    }
-}
-
-struct UserRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserRowView(user: UserB(name: "", lastname: "", age: "", gender: "", email: "", password: ""))
-            .previewLayout(
-                .fixed(width: 400, height: 60))
     }
 }
