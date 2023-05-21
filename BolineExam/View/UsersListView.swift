@@ -11,7 +11,7 @@ struct UsersListView: View {
     //Funciones
     private func addButton(action: @escaping () -> Void) -> some View {
         Button(action: { action() }) {
-            Text("+").font(.largeTitle)
+            Text("+").font(.largeTitle).foregroundColor(Color("FondoList"))
         }
     }
     
@@ -24,12 +24,13 @@ struct UsersListView: View {
                 ForEach(userViewModel.users) {
                     user in NavigationLink(destination: UserDetailView(user: user)){
                         UserRowView(user:user)
-                    }
+                    }.listRowBackground(Color("FondoList"))
                 }
                 .onDelete(){
                     indexSet in userViewModel.removeUsers(atOffsets: indexSet)
                 }
-            }.navigationTitle("Users")
+            }.background(Color("Fondo")).scrollContentBackground(.hidden)
+            .navigationTitle("Users")
                 .navigationBarItems(trailing: addButton {
                     self.presentAddUserSheet.toggle()
             })

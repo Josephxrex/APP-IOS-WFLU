@@ -1,10 +1,3 @@
-//
-//  PurchasesListView.swift
-//  BolineExam
-//
-//  Created by ISSC_611_2023 on 18/05/23.
-//
-
 import SwiftUI
 
 struct PurchasesListView: View {
@@ -17,7 +10,7 @@ struct PurchasesListView: View {
     //Funciones
     private func addButton(action: @escaping () -> Void) -> some View {
         Button(action: { action() }) {
-            Text("+").font(.largeTitle)
+            Text("+").font(.largeTitle).foregroundColor(Color("FondoList"))
         }
     }
     
@@ -28,13 +21,14 @@ struct PurchasesListView: View {
                 ForEach(purchaseViewModel.purchases) { purchase in
                     NavigationLink(destination: PurchaseDetailsView(purchase: purchase)) {
                         PurchaseRowView(purchase: purchase)
-                    }
+                    }.listRowBackground(Color("FondoList"))
                 }
                 .onDelete(){
                     indexSet in
                     purchaseViewModel.removePurchases(atOffsets: indexSet)
                 }
-            }.navigationTitle("Purchases")
+            }.background(Color("Fondo")).scrollContentBackground(.hidden)
+            .navigationTitle("Purchases")
                 .navigationBarItems(trailing: addButton {
                     self.presentAddPurchaseSheet.toggle()
             })
