@@ -14,7 +14,7 @@ struct SaleRowView: View {
                     Text("Quantity:"+sale.quantity).font(.subheadline)
                     Text("Total:"+sale.total).font(.subheadline)
                 }
-            }
+            }.foregroundColor(Color.white)
         }
     }
 }

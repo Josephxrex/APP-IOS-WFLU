@@ -14,7 +14,7 @@ struct UserRowView: View {
                     Text("Name:"+user.name).font(.subheadline)
                     Text("Lastname:"+user.lastname).font(.subheadline)
                 }
-            }
+            }.foregroundColor(Color.white)
         }
     }
 }

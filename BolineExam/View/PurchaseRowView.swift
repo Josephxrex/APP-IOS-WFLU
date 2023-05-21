@@ -14,7 +14,7 @@ struct PurchaseRowView: View {
                     Text("ida:"+purchase.ida).font(.subheadline)
                     Text("Pieces:"+purchase.pieces).font(.subheadline)
                 }
-            }
+            }.foregroundColor(Color.white)
         }
     }
 }
