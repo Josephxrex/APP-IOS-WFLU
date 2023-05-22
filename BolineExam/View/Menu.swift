@@ -37,13 +37,13 @@ struct Menu: View {
     var body: some View {
 
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack{
+            Spacer().frame(height: 50)
+            
             Text("Welcome back!")
-                .font(.largeTitle.bold()).padding()
+                .font(.largeTitle.bold())
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundColor(.white)
+                .foregroundColor(.white).padding(.leading)
             Text("Pick up where you left off").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
-        
-
         
                     List(items) { item in
                         NavigationLink(destination: item.destination.edgesIgnoringSafeArea(.all)) {
@@ -54,7 +54,7 @@ struct Menu: View {
                                     .font(.headline)
                                     .foregroundColor(.white)
                             }
-                        }.listRowBackground(Color("FondoList"))
+                        }.listRowBackground(Color("FondoList")).foregroundColor(.white).accentColor(.white)
                     }.background( Color("Fondo")).scrollContentBackground(.hidden)
         })
         }

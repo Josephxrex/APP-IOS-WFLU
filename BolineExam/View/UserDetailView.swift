@@ -25,7 +25,7 @@ struct UserDetailView: View {
                     Text(user.email)
                 }.listRowBackground(Color("FondoList")).foregroundColor(.white)
             }.background(Color("Fondo")).scrollContentBackground(.hidden)
-            .navigationBarTitle(user.name)
+                .navigationBarTitle(user.name)
             .navigationBarItems(trailing: editButton {
                 self.presentEditMovieSheet.toggle()
             })

@@ -28,10 +28,7 @@ struct PurchasesListView: View {
                     purchaseViewModel.removePurchases(atOffsets: indexSet)
                 }
             }.background(Color("Fondo")).scrollContentBackground(.hidden)
-            .navigationTitle("Purchases")
-                .navigationBarItems(trailing: addButton {
-                    self.presentAddPurchaseSheet.toggle()
-            })
+            
              .onAppear() {
                  purchaseViewModel.subscribe()
             }
@@ -43,7 +40,10 @@ struct PurchasesListView: View {
                      }
                  }
              }
-        }
+        }.navigationBarTitle("Purchases")
+            .navigationBarItems(trailing: addButton {
+                self.presentAddPurchaseSheet.toggle()
+        }).foregroundColor(.white).accentColor(.white)
         
     }
 }

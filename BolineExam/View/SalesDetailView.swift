@@ -54,7 +54,7 @@ struct SalesDetailView: View {
             return
                 NavigationView {
                     SalesDetailView(sale: sale)
-                }
+                }.foregroundColor(.white).accentColor(.white)
             }
         }
 }

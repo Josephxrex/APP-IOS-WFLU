@@ -29,10 +29,6 @@ struct SalesListView: View {
                     indexSet in saleViewModel.removeSales(atOffsets: indexSet)
                 }
             }.background(Color("Fondo")).scrollContentBackground(.hidden)
-            .navigationTitle("Sales")
-                .navigationBarItems(trailing: addButton {
-                    self.presentAddSaleSheet.toggle()
-            })
             .onAppear(){
                     saleViewModel.subscribe()
                 }
@@ -44,7 +40,10 @@ struct SalesListView: View {
                     }
                 }
             }
-        }
+        }.navigationBarTitle("Sales").foregroundColor(.white).accentColor(.white)
+            .navigationBarTitleDisplayMode(.inline).navigationBarItems(trailing: addButton {
+                self.presentAddSaleSheet.toggle()
+        })
     }
 }
 

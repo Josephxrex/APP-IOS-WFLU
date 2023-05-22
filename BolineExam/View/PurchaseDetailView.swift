@@ -48,6 +48,6 @@ struct PurchaseDetailsView_Previews: PreviewProvider {
         return
           NavigationView {
             PurchaseDetailsView(purchase: purchase)
-          }
+          }.foregroundColor(.white).accentColor(.white)
     }
 }

@@ -75,16 +75,14 @@ struct PurchaseEditView: View {
                             
                     }
                     
-                    if mode == .edit {
-                     Section {
-                      Button("Delete Purchase") { self.presentActionSheet.toggle()
-                          self.handleDeleteTapped()
-                      }
-                        .foregroundColor(.red)
-                        .font(.headline)
-                        .padding()
-                     }
+                if mode == .edit {
+                    Section {
+                        Button("Delete Purchase") { self.presentActionSheet.toggle() }
+                            .foregroundColor(.red)
+                            .font(.headline)
+                            .padding()
                     }
+                }
                 }//Fin de Vstack
             )//Cierre de Overlay
             .foregroundColor(.white)
@@ -102,7 +100,7 @@ struct PurchaseEditView: View {
                             .cancel()
                           ])
             }
-        }
+        }.foregroundColor(.white).accentColor(.white)
     }
     
 

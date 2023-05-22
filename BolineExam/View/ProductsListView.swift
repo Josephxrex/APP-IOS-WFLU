@@ -39,10 +39,6 @@ struct ProductsListView: View {
                     productsViewModel.removeProducts(atOffsets: indexSet)
                 }
             }.background(Color("Fondo")).scrollContentBackground(.hidden)
-            .navigationTitle("Products")
-                .navigationBarItems(trailing: addButton {
-                    self.presentAddProductSheet.toggle()
-            })
              .onAppear() {
                 productsViewModel.subscribe()
             }
@@ -55,7 +51,10 @@ struct ProductsListView: View {
                  }
              }
 
-        }
+        }.navigationBarTitle("Products").foregroundColor(.white).accentColor(.white)
+            .navigationBarTitleDisplayMode(.inline).navigationBarItems(trailing: addButton {
+                self.presentAddProductSheet.toggle()
+        })
         
     }
     

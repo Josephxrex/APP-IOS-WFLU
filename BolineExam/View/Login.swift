@@ -11,8 +11,8 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct Login: View {
-    @State private var email = ""
-    @State private var password = ""
+    @State private var email = "correo@gmail.com"
+    @State private var password = "contraseña"
     @State private var mensaje = ""
     
     @State private var alerta = false
@@ -26,49 +26,55 @@ struct Login: View {
     var body: some View {
         NavigationView{
             Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack {
-                Text("Login").font(.largeTitle).foregroundColor(Color.white)
+            
+                VStack {
+                    Text("Let's sign you in")
+                        .font(.largeTitle.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(.white).padding(.leading)
+                    Text("Welcome back").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
+                    Text("You have been missed!").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
+                    Spacer().frame(height: 50)
+                }
                 
                 Component_TextField(textFieldTitle: "Email", textFieldText: $email)
                 
                 Spacer().frame(height: 20)
-                
 
                 Component_SecureField(secureFieldTitle: "Password", secureFieldText: $password)
                 
-                Spacer().frame(height: 20)
+                Spacer().frame(height: 50)
                 
-                Button("Login"){
+                HStack {
+                    Text("Don't have an account?")
+                    NavigationLink(destination: UserEditView(), label: {
+                        Text("Register").bold()
+                    })
+                    
+                }.foregroundColor(.white)
+                
+                Button("Log in"){
                     // Aquí puedes agregar la acción que se ejecutará al hacer clic en el botón de inicio de sesión
                     checkLogin()
-                }.foregroundColor(Color.white)
-                    .font(.headline)
-                    .frame(width: 220, height: 60)
+                }.font(.headline)
+                    .foregroundColor(Color(red: 0, green: 0.333, blue: 0.455))
+                    .frame(width: 320, height: 50)
+                    .background(Color("Botones"))
+                    .cornerRadius(30)
                     .alert(isPresented: $alerta){
                         Alert(title: Text("Alerta"),message:Text("\(mensaje)"),dismissButton: .default(Text("Ok")))
                     }
-                
+                                
                 NavigationLink(destination: Menu(), isActive: $isValidated) {
                                     EmptyView()
                 }
-                
-
-                
-                NavigationLink(destination: UserEditView(), label: {
-                    Text("Sign Up")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 220, height: 60)
-                        .background(Color("Botones"))
-                        .cornerRadius(15.0)
-                        
-                })
-            }
-            .padding()
+            }.foregroundColor(.white).accentColor(.white)
+                .padding()
         )
             
             
             
-        }
+        }.foregroundColor(.white).accentColor(.white)
     }
     
 

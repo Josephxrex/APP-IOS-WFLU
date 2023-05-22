@@ -107,7 +107,7 @@ struct SalesEditView: View {
                         .cancel()
                       ])
         }
-      }
+      }.foregroundColor(.white).accentColor(.white)
     }
      
     // Action Handlers

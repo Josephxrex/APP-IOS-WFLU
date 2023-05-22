@@ -59,6 +59,6 @@ struct ProductDetailsView_Previews: PreviewProvider {
         return
           NavigationView {
             ProductDetailsView(product: product)
-          }
+          }.foregroundColor(.white).accentColor(.white)
     }
 }

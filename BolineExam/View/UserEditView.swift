@@ -37,7 +37,10 @@ struct UserEditView: View {
       NavigationView {
           Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
           VStack{
-              Section(header: Text("User Name").font(.largeTitle)) {
+              Section(header: Text("User")
+                .font(.largeTitle.bold())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.white).padding(.leading)) {
                   TextField("Name", text: $viewModel.user.name).padding()
                       .background(Color("Inputs"))
                       .foregroundColor(.white)
@@ -86,7 +89,7 @@ struct UserEditView: View {
           }//Fin de Vstack
           )//Cierre de Overlay
           .foregroundColor(.white)
-        .navigationTitle(mode == .new ? "New User" : "Edit:"+viewModel.user.name).foregroundColor(.white)
+        .navigationTitle(mode == .new ? "" : "Edit:"+viewModel.user.name).foregroundColor(.white)
         .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
         .navigationBarItems(
           leading: cancelButton,

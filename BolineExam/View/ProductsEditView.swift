@@ -118,16 +118,14 @@ struct ProductsEditView: View {
                         }
                         }
                     
-                if mode == .edit {
-                 Section {
-                  Button("Delete Product") { self.presentActionSheet.toggle()
-                      self.handleDeleteTapped()
-                  }
-                    .foregroundColor(.red)
-                    .font(.headline)
-                    .padding()
-                 }
-                }
+                        if mode == .edit {
+                            Section {
+                                Button("Delete Product") { self.presentActionSheet.toggle() }
+                                    .foregroundColor(.red)
+                                    .font(.headline)
+                                    .padding()
+                            }
+                        }
             }
         }//Fin de vstack
             )//Cierre de Overlay
@@ -146,7 +144,7 @@ struct ProductsEditView: View {
                             .cancel()
                           ])
             }
-    }//Fin de NavigationView
+    }.foregroundColor(.white).accentColor(.white)//Fin de NavigationView
 }//Fin de view
     
 
