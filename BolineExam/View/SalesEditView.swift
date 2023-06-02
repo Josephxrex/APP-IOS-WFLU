@@ -38,17 +38,11 @@ struct SalesEditView: View {
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
         VStack {
           Section(header: Text("Sale Data").font(.largeTitle)) {
-            TextField("Name", text: $viewModel.sale.name).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
               
-            TextField("Quantity", text: $viewModel.sale.quantity).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
+        
+              Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.sale.name)
+              
+              Component_TextField(textFieldTitle: "Quantity", textFieldText: $viewModel.sale.quantity)
               
             TextField("IDVenta", text: $viewModel.sale.idv).padding()
                   .background(Color("Inputs"))

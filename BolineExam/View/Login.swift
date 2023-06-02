@@ -15,7 +15,8 @@ struct Login: View {
     @State private var password = "contraseña"
     @State private var mensaje = ""
     
-    @State private var alerta = false
+    @State var alertMessage = ""
+    @State private var showAlert = false
     
     var correo = false
     var contrasenia = false
@@ -28,12 +29,9 @@ struct Login: View {
             Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack {
             
                 VStack {
-                    Text("Let's sign you in")
-                        .font(.largeTitle.bold())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(.white).padding(.leading)
-                    Text("Welcome back").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
-                    Text("You have been missed!").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
+                    Component_Title(titleText: "Let's sign you in")
+                    Component_Subtitle(subtitleText: "Welcome back")
+                    Component_Subtitle(subtitleText: "You have been missed!")
                     Spacer().frame(height: 50)
                 }
                 
@@ -53,17 +51,8 @@ struct Login: View {
                     
                 }.foregroundColor(.white)
                 
-                Button("Log in"){
-                    // Aquí puedes agregar la acción que se ejecutará al hacer clic en el botón de inicio de sesión
-                    checkLogin()
-                }.font(.headline)
-                    .foregroundColor(Color(red: 0, green: 0.333, blue: 0.455))
-                    .frame(width: 320, height: 50)
-                    .background(Color("Botones"))
-                    .cornerRadius(30)
-                    .alert(isPresented: $alerta){
-                        Alert(title: Text("Alerta"),message:Text("\(mensaje)"),dismissButton: .default(Text("Ok")))
-                    }
+                Component_Button(buttonTitle: "Log in", alertMessage: alertMessage, alert: $showAlert, action: checkLogin)
+
                                 
                 NavigationLink(destination: Menu(), isActive: $isValidated) {
                                     EmptyView()
@@ -77,12 +66,11 @@ struct Login: View {
         }.foregroundColor(.white).accentColor(.white)
     }
     
-
     
     func checkLogin(){
         if([email,password].contains("")){
-            mensaje = "Ingresa todos los campos"
-            alerta = true
+            alertMessage = "Ingresa todos los campos"
+            showAlert = true
         } else {
           if(email == "correo@gmail.com" && password == "contraseña"){
               isValidated = true

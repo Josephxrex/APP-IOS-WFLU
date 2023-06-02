@@ -49,18 +49,11 @@ struct ProductsEditView: View {
         NavigationView{
            Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
                 VStack{
-                    Section(header: Text("Product data").font(.largeTitle)) {
-                    TextField("Name", text:$viewModel.product.name).padding()
-                        .background(Color("Inputs"))
-                        .foregroundColor(.white)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
-                    
-                    TextField("Description", text:$viewModel.product.description).padding()
-                        .background(Color("Inputs"))
-                        .foregroundColor(.white)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
+                    Section(header: Component_Title(titleText: "Product")) {
+                    Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.product.name)
+                        
+                    Component_TextField(textFieldTitle: "Description", textFieldText: $viewModel.product.description)
+                        
                     
                     TextField("Units", text:$viewModel.product.units).padding()
                         .background(Color("Inputs"))

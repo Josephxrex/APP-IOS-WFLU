@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Component_TextField: View {
+    
     @State var textFieldTitle: String
     @State var textFieldText: Binding<String>
     
