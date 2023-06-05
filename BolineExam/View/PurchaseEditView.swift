@@ -51,13 +51,9 @@ struct PurchaseEditView: View {
                             if filtered != value {
                                 self.viewModel.purchase.pieces = "\(filtered)"
                             }
-                            }
+                          }
+                        Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.purchase.name)
                         
-                        TextField("Name", text:$viewModel.purchase.name).padding()
-                            .background(Color("Inputs"))
-                            .foregroundColor(.white)
-                            .cornerRadius(5.0)
-                            .padding(.horizontal)
 
                         TextField("Units", text:$viewModel.purchase.pieces).padding()
                             .background(Color("Inputs"))

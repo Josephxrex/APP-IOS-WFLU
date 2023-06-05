@@ -39,11 +39,8 @@ struct Menu: View {
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack{
             Spacer().frame(height: 50)
             
-            Text("Welcome back!")
-                .font(.largeTitle.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundColor(.white).padding(.leading)
-            Text("Pick up where you left off").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
+            Component_Title(titleText: "Welcome back!")
+            Component_Subtitle(subtitleText: "Pick up where you left off")
         
                     List(items) { item in
                         NavigationLink(destination: item.destination.edgesIgnoringSafeArea(.all)) {
