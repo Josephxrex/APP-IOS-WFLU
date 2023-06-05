@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
  
 enum ModeSale {
   case new
@@ -49,36 +50,84 @@ struct SalesEditView: View {
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
+                  .keyboardType(.numberPad)
+                  .onReceive(Just(viewModel.sale.idv)){
+                  value in
+                  let filtered = "\(value)".filter { "0123456789".contains($0) }
+                  if filtered != value {
+                      self.viewModel.sale.idv = "\(filtered)"
+                  }
+                  }
               
             TextField("IDVenta", text: $viewModel.sale.idv).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
+                  .keyboardType(.numberPad)
+                  .onReceive(Just(viewModel.sale.idv)){
+                  value in
+                  let filtered = "\(value)".filter { "0123456789".contains($0) }
+                  if filtered != value {
+                      self.viewModel.sale.idv = "\(filtered)"
+                  }
+                  }
               
-              TextField("DCompra", text: $viewModel.sale.idc).padding()
+              TextField("IDCompra", text: $viewModel.sale.idc).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
+                  .keyboardType(.numberPad)
+                  .onReceive(Just(viewModel.sale.idc)){
+                  value in
+                  let filtered = "\(value)".filter { "0123456789".contains($0) }
+                  if filtered != value {
+                      self.viewModel.sale.idc = "\(filtered)"
+                  }
+                  }
               
             TextField("Pieces", text: $viewModel.sale.pieces).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
+                  .keyboardType(.numberPad)
+                  .onReceive(Just(viewModel.sale.pieces)){
+                  value in
+                  let filtered = "\(value)".filter { "0123456789".contains($0) }
+                  if filtered != value {
+                      self.viewModel.sale.pieces = "\(filtered)"
+                  }
+                  }
               
             TextField("Subtotal", text: $viewModel.sale.subtotal).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
+                  .keyboardType(.numberPad)
+                  .onReceive(Just(viewModel.sale.subtotal)){
+                  value in
+                  let filtered = "\(value)".filter { "0123456789".contains($0) }
+                  if filtered != value {
+                      self.viewModel.sale.subtotal = "\(filtered)"
+                  }
+                  }
               
              TextField("Total", text: $viewModel.sale.total).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
+                  .keyboardType(.numberPad)
+                  .onReceive(Just(viewModel.sale.total)){
+                  value in
+                  let filtered = "\(value)".filter { "0123456789".contains($0) }
+                  if filtered != value {
+                      self.viewModel.sale.total = "\(filtered)"
+                  }
+                  }
               
           }
            

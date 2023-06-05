@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
  
 enum ModeUser {
   case new
@@ -58,6 +59,14 @@ struct UserEditView: View {
                       .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
+                      .keyboardType(.numberPad)
+                      .onReceive(Just(viewModel.user.age)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.viewModel.user.age = "\(filtered)"
+                      }
+                      }
                   
                   TextField("Gender", text: $viewModel.user.gender).padding()
                       .background(Color("Inputs"))
@@ -70,6 +79,7 @@ struct UserEditView: View {
                       .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
+                      .keyboardType(.emailAddress)
                   
                   TextField("Password", text: $viewModel.user.password).padding()
                       .background(Color("Inputs"))

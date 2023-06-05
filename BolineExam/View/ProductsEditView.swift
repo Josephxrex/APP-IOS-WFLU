@@ -23,6 +23,11 @@ struct ProductsEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var presentActionSheet = false
     @ObservedObject var viewModel = ProductViewModel()
+    
+    @State private var showAlert = false;
+    @State private var title = "";
+    @State private var message = "";
+    
     var mode: Mode = .new
     var completionHandler: ((Result<Action, Error>) -> Void)?
     
@@ -36,8 +41,11 @@ struct ProductsEditView: View {
     }
      
     var saveButton: some View {
-      Button(action: { self.handleDoneTapped() }) {
+      Button(action: { validateFields() }) {
           Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
+      }
+      .alert(isPresented: $showAlert){
+      Alert(title: Text(title), message: Text(message))
       }
       .disabled(!viewModel.modified)
       .foregroundColor(Color.white)
@@ -146,6 +154,17 @@ struct ProductsEditView: View {
             }
     }.foregroundColor(.white).accentColor(.white)//Fin de NavigationView
 }//Fin de view
+    
+    func validateFields(){
+        if([viewModel.product.name, viewModel.product.units, viewModel.product.cost, viewModel.product.price, viewModel.product.utility].contains("")){
+            title = "Error"
+            message = "One or more fields are empty"
+        }else{
+            title="Success"
+            message="The fields were saved succesfully"
+            self.handleDoneTapped()
+        }
+    }
     
 
         // Action Handlers
