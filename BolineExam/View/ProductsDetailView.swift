@@ -32,7 +32,7 @@ struct ProductDetailsView: View {
              
         }.listRowBackground(Color("FondoList")).foregroundColor(.white)
       }.background(Color("Fondo")).scrollContentBackground(.hidden)
-      .navigationBarTitle(product.name)
+            .navigationBarTitle(Text("Product"))
       .navigationBarItems(trailing: editButton {
         self.presentEditProductSheet.toggle()
       })

@@ -41,18 +41,13 @@ struct UserEditView: View {
                 .font(.largeTitle.bold())
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundColor(.white).padding(.leading)) {
-                  TextField("Name", text: $viewModel.user.name).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                  
-                  TextField("LastName", text: $viewModel.user.lastname).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                  
+              
+                    
+                //Name
+                Component_TextField(textFieldTitle: "Name", textFieldText:$viewModel.user.name)
+                //LastName
+                Component_TextField(textFieldTitle: "LastName", textFieldText:$viewModel.user.name)
+                    
                   TextField("Age", text: $viewModel.user.age).padding()
                       .background(Color("Inputs"))
                       .foregroundColor(.white)
@@ -64,20 +59,14 @@ struct UserEditView: View {
                       .foregroundColor(.white)
                       .cornerRadius(5.0)
                       .padding(.horizontal)
-                  
-                  TextField("E-mail", text: $viewModel.user.email).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                  
-                  TextField("Password", text: $viewModel.user.password).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
+                    
+                    //E-mail
+                    Component_TextField(textFieldTitle: "E-mail", textFieldText:$viewModel.user.name)
+                    //LasName
+                    Component_TextField(textFieldTitle: "LastName", textFieldText:$viewModel.user.name)
+                    //Password
+                    Component_SecureField(secureFieldTitle: "Password", secureFieldText: $viewModel.user.password)
               }
-              
               if mode == .edit {
                   Section {
                       Button("Delete User") { self.presentActionSheet.toggle() }
@@ -136,7 +125,7 @@ struct UserEditView: View {
  
 struct MovieEditView_Previews: PreviewProvider {
   static var previews: some View {
-    let user = UserB(name:"Pigy",lastname:"Puerk",age: "23",gender: "M",email: "",password: "")
+    let user = UserB(name:"",lastname:"",age: "",gender: "",email: "",password: "")
     let userViewModel = UserViewModels(user: user)
     return UserEditView(viewModel: userViewModel, mode: .edit)
   }

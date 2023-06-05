@@ -35,12 +35,9 @@ struct Login: View {
             Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack {
             
                 VStack {
-                    Text("Let's sign you in")
-                        .font(.largeTitle.bold())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(.white).padding(.leading)
-                    Text("Welcome back").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
-                    Text("You have been missed!").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.white).padding(.horizontal)
+                    Component_Title(titleText: "Let's sign you in")
+                    Component_Subtitle(subtitleText: "Welcome back")
+                    Component_Subtitle(subtitleText: "You have been missed!")
                     Spacer().frame(height: 50)
                 }
                 VStack{
