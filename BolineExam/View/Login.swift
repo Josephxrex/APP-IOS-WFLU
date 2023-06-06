@@ -7,7 +7,7 @@ struct Login: View {
     @State private var email = ""
     @State private var password = ""
     @State private var message = ""
-    @State private var userIsLogged = false
+    @State private var userIsLogged: Bool = false
     @State private var alerta = false
 
     var correo = false
@@ -18,7 +18,7 @@ struct Login: View {
     
     var body: some View {
         if userIsLogged {
-            Menu()
+            Menu(userIsLogged: $userIsLogged)
         }else{
             contenido
         }
