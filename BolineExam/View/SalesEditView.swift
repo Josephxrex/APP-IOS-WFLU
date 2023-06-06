@@ -20,12 +20,20 @@ struct SalesEditView: View {
     var mode: ModeSale = .new
     var completionHandler: ((Result<Action, Error>) -> Void)?
     
+    // Variables Products Dropdown
     @State private var isExpanded = false
     @State private var selectedItem = "Products"
     @State private var quantity = ""
     @State private var allGood = false
     
     @StateObject var productsViewModel = ProductsViewModel()
+    
+    // Variables Alert
+    @State private var showAlert = false;
+    @State private var title = "";
+    @State private var message = "";
+    
+    
      
      
     var cancelButton: some View {
@@ -35,9 +43,12 @@ struct SalesEditView: View {
     }
      
     var saveButton: some View {
-      Button(action: { self.handleDoneTapped() }) {
+        Button(action: { self.validateSalesFields() }) {
         Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
       }
+      .alert(isPresented: $showAlert){
+          Alert(title: Text(title), message: Text(message))
+          }
       .disabled(!viewModel.modified)
     }
      
@@ -47,12 +58,6 @@ struct SalesEditView: View {
         VStack {
           Section(header: Text("Sale Data").font(.largeTitle)) {
               
-              
-            TextField("Name", text: $viewModel.sale.name).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
               
               //Component_Dropdown()
               
@@ -65,6 +70,7 @@ struct SalesEditView: View {
                               .onTapGesture(){
                                   self.selectedItem = item.name
                                   self.quantity = item.units
+                                  self.viewModel.sale.name = self.selectedItem
                                   withAnimation{
                                       self.isExpanded.toggle()
                                   }
@@ -202,6 +208,8 @@ struct SalesEditView: View {
         }
       }.foregroundColor(.white).accentColor(.white)
     }
+    
+    
      
     // Action Handlers
      
@@ -226,6 +234,8 @@ struct SalesEditView: View {
       self.presentationMode.wrappedValue.dismiss()
     }
     
+    
+    // Validation functions
     func compareQuantity(valor: Int){
         if(Int(quantity)! < valor) {
             print("todo mal")
@@ -233,9 +243,23 @@ struct SalesEditView: View {
             self.allGood = true
         }
     }
+    
     func intNull(valor: String){
         if(valor != ""){
             compareQuantity(valor: Int(valor)!)
+        }
+    }
+    
+    func validateSalesFields(){
+        if([viewModel.sale.name, viewModel.sale.quantity, viewModel.sale.idv, viewModel.sale.idc, viewModel.sale.pieces, viewModel.sale.subtotal, viewModel.sale.total].contains("")){
+            title = "Error"
+            message = "One or more fields are empty"
+            showAlert.toggle()
+        }else{
+            title="Success"
+            message="The fields were saved succesfully"
+            showAlert.toggle()
+            self.handleDoneTapped()
         }
     }
   }

@@ -148,13 +148,16 @@ struct ProductsEditView: View {
     }.foregroundColor(.white).accentColor(.white)//Fin de NavigationView
 }//Fin de view
     
+    // Validation 
     func validateFields(){
         if([viewModel.product.name, viewModel.product.units, viewModel.product.cost, viewModel.product.price, viewModel.product.utility].contains("")){
             title = "Error"
             message = "One or more fields are empty"
+            showAlert.toggle()
         }else{
             title="Success"
             message="The fields were saved succesfully"
+            showAlert.toggle()
             self.handleDoneTapped()
         }
     }
