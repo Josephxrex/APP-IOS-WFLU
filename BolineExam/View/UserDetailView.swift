@@ -3,42 +3,54 @@ import SwiftUI
 struct UserDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @State var presentEditMovieSheet = false
+    @State var presentEditUserSheet = false
     
     var user: UserB
     
     private func editButton(action: @escaping () -> Void) -> some View {
-        Button(action: { action() }) {
-            Text("Edit").foregroundColor(Color("FondoList"))
-        }
+        Component_Button(buttonTitle: "Edit", action: action).frame(minHeight: 10, idealHeight: 10)
     }
     
-    //CUERPO
     var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("User")) {
-                    Text(user.name)
-                    Text(user.lastname)
-                    Text(user.gender)
-                    Text(user.age)
-                    Text(user.email)
-                }.listRowBackground(Color("FondoList")).foregroundColor(.white)
-            }.background(Color("Fondo")).scrollContentBackground(.hidden)
-                .navigationBarTitle(user.name)
-            .navigationBarItems(trailing: editButton {
-                self.presentEditMovieSheet.toggle()
-            })
-            .onAppear() {
-                print("UserDetailsView.onAppear() for \(self.user.name)")
-            }
-            .onDisappear() {
-                print("UserDetailsView.onDisappear()")
-            }
-            .sheet(isPresented: self.$presentEditMovieSheet) {
-                UserEditView(viewModel: UserViewModels(user: user), mode: .edit) { result in
-                    if case .success(let action) = result, action == .delete {
-                        self.presentationMode.wrappedValue.dismiss()
+        NavigationView {
+            ZStack {
+                Color("Fondo")
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    Component_Title(titleText: user.name)
+                    Component_Subtitle(subtitleText: "Data")
+                    
+                    Form {
+                        Section(header: Text("ID:" + (user.id ?? ""))) {
+                            Component_DetailField(textTitle: "Name:", textValue: user.name)
+                            Component_DetailField(textTitle: "Last name:", textValue: user.lastname)
+                            Component_DetailField(textTitle: "Gender:", textValue: user.gender)
+                            Component_DetailField(textTitle: "Age:", textValue: user.age)
+                            Component_DetailField(textTitle: "E-mail:", textValue: user.email)
+                        }
+                        .listRowBackground(Color("FondoList"))
+                        .foregroundColor(.white)
+                        
+                        editButton{
+                            self.presentEditUserSheet.toggle()
+                        }
+                        
+                    }
+                    .background(Color("Fondo"))
+                    .scrollContentBackground(.hidden)
+                    .onAppear() {
+                        print("ProductsDetailView.onAppear() for \(self.user.name)")
+                    }
+                    .onDisappear() {
+                        print("ProductsDetailView.onDisappear()")
+                    }
+                    .sheet(isPresented: self.$presentEditUserSheet) {
+                        UserEditView(viewModel: UserViewModels(user: user), mode: .edit) { result in
+                            if case .success(let action) = result, action == .delete {
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                        }
                     }
                 }
             }

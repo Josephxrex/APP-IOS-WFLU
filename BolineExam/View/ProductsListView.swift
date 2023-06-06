@@ -19,49 +19,72 @@ struct ProductsListView: View {
     
     @StateObject var productsViewModel = ProductsViewModel()
     
-    //funciones
+    // Funciones
     private func addButton(action: @escaping () -> Void) -> some View {
-        Button(action: { action() }) {
-            Text("+").font(.largeTitle).foregroundColor(Color("FondoList"))
-        }
+        Component_AddButton(action: action)
     }
     
     var body: some View {
-        NavigationView{
-            List {
-                ForEach(productsViewModel.products) { product in
-                    NavigationLink(destination: ProductDetailsView(product: product)) {
-                        ProductRowView(product: product)
-                    }.listRowBackground(Color("FondoList"))
+        NavigationView {
+            ZStack {
+                Color("Fondo")
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    Spacer().frame(height: 110)
+                    
+                    List {
+                        ForEach(productsViewModel.products) { product in
+                            NavigationLink(destination: ProductDetailsView(product: product)) {
+                                ProductRowView(product: product)
+                            }.listRowBackground(Color("FondoList"))
+                        }
+                        .onDelete(){
+                            indexSet in
+                            productsViewModel.removeProducts(atOffsets: indexSet)
+                        }
+                    }.background(Color("Fondo")).scrollContentBackground(.hidden)
+                        .onAppear() {
+                            productsViewModel.subscribe()
+                        }
+                        .sheet(isPresented: self.$presentAddProductSheet){
+                            let product = Product(name: "", description: "", units: "", cost: "", price: "", utility: "")
+                            ProductsEditView(viewModel: ProductViewModel(product: product), mode: .new) { result in
+                                if case .success(let action) = result, action == .delete {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
+                            }
+                        }
+                    
+                }.foregroundColor(.white).accentColor(.white)
+                    .navigationBarTitleDisplayMode(.inline)
+                
+                
+                VStack {
+                    Spacer().frame(height: 20)
+                    
+                    Component_Subtitle(subtitleText: "List of")
+                    Component_Title(titleText: "Products")
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        addButton {
+                            presentAddProductSheet.toggle()
+                        }
+                    }
+                    .padding(.trailing, 35)
+                    .padding(.bottom, 35)
                 }
-                .onDelete(){
-                    indexSet in
-                    productsViewModel.removeProducts(atOffsets: indexSet)
-                }
-            }.background(Color("Fondo")).scrollContentBackground(.hidden)
-             .onAppear() {
-                productsViewModel.subscribe()
             }
-             .sheet(isPresented: self.$presentAddProductSheet){
-                 let product = Product(name: "", description: "", units: "", cost: "", price: "", utility: "")
-                 ProductsEditView(viewModel: ProductViewModel(product: product), mode: .new) { result in
-                     if case .success(let action) = result, action == .delete {
-                         self.presentationMode.wrappedValue.dismiss()
-                     }
-                 }
-             }
-
-        }.navigationBarTitle("Products").foregroundColor(.white).accentColor(.white)
-            .navigationBarTitleDisplayMode(.inline).navigationBarItems(trailing: addButton {
-                self.presentAddProductSheet.toggle()
-        })
-        
+        }
     }
     
-}
-
-struct ProductsListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductsListView()
+    struct ProductsListView_Previews: PreviewProvider {
+        static var previews: some View {
+            ProductsListView()
+        }
     }
 }

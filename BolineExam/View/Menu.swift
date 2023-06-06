@@ -35,25 +35,26 @@ struct Menu: View {
     
 
     var body: some View {
-
+        NavigationView{
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack{
             Spacer().frame(height: 50)
             
             Component_Title(titleText: "Welcome back!")
             Component_Subtitle(subtitleText: "Pick up where you left off")
+                        List(items) { item in
+                            NavigationLink(destination: item.destination.edgesIgnoringSafeArea(.all)) {
+                                HStack {
+                                    Image(systemName: item.iconName)
+                                        .foregroundColor(Color("Iconos"))
+                                    Text(item.title)
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                }
+                            }.listRowBackground(Color("FondoList")).foregroundColor(.white).accentColor(.white)
+                        }.background( Color("Fondo")).scrollContentBackground(.hidden)
+            })
+        }
         
-                    List(items) { item in
-                        NavigationLink(destination: item.destination.edgesIgnoringSafeArea(.all)) {
-                            HStack {
-                                Image(systemName: item.iconName)
-                                    .foregroundColor(Color("Iconos"))
-                                Text(item.title)
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                            }
-                        }.listRowBackground(Color("FondoList")).foregroundColor(.white).accentColor(.white)
-                    }.background( Color("Fondo")).scrollContentBackground(.hidden)
-        })
         }
     }
 

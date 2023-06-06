@@ -2,8 +2,6 @@ import SwiftUI
 
 struct Component_Button: View {
     @State public var buttonTitle: String
-        @State public var alertMessage: String
-        @Binding public var alert: Bool
         var action: (() -> Void)?
     
     var body: some View {
@@ -15,8 +13,5 @@ struct Component_Button: View {
             .frame(width: 320, height: 50)
             .background(Color("Botones"))
             .cornerRadius(30)
-            .alert(isPresented: $alert) {
-                        Alert(title: Text("Alert"), message: Text("\(alertMessage)"), dismissButton: .default(Text("Ok")))
-                    }
     }
 }
