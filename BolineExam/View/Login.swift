@@ -1,10 +1,3 @@
-//
-//  Login.swift
-//  BolineExam
-//
-//  Created by ISSC_612_2023 on 12/05/23.
-//
-
 import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
@@ -13,7 +6,7 @@ import FirebaseAuth
 struct Login: View {
     @State private var email = ""
     @State private var password = ""
-    @State private var mensaje = ""
+    @State private var message = ""
     @State private var userIsLogged = false
     @State private var alerta = false
 
@@ -42,42 +35,22 @@ struct Login: View {
                 }
                 VStack{
                     Component_TextField(textFieldTitle: "Email", textFieldText: $email)
-                    
                     Spacer().frame(height: 20)
-
                     Component_SecureField(secureFieldTitle: "Password", secureFieldText: $password)
-                    
                     Spacer().frame(height: 50)
-                    
-                    Button("Log in"){
-                        // Aquí puedes agregar la acción que se ejecutará al hacer clic en el botón de inicio de sesión
-                        checkLogin()
-                    }.font(.headline)
-                        .foregroundColor(Color(red: 0, green: 0.333, blue: 0.455))
-                        .frame(width: 320, height: 50)
-                        .background(Color("Botones"))
-                        .cornerRadius(30)
-                        .alert(isPresented: $alerta){
-                            Alert(title: Text("Alerta"),message:Text("\(mensaje)"),dismissButton: .default(Text("Ok")))
-                        }
-                    
-                    VStack {
-                        Text("Don't have an account?")
-                        Text("Write your email and password in the fields and press:").multilineTextAlignment(.center)
-                        Button("Register"){
-                            registerForLogin()
-                        }.alert(isPresented: $alerta){
-                            Alert(title: Text("Alerta"),message:Text("\(mensaje)"),dismissButton: .default(Text("Ok")))
-                        }
-                        
-                    }.foregroundColor(.white)
-                    
+                    Component_Button(buttonTitle: "Log In", action: checkLogin).alert(isPresented: $alerta){
+                        Alert(title: Text("Alert"),message:Text("\(message)"),dismissButton: .default(Text("Ok")))
+                    }
+                    Component_Subtitle(subtitleText: "Don't have an account?")
+                    Component_Subtitle(subtitleText: "Write your email and password in the fields and press:")
+                    Component_Button(buttonTitle: "Register", action: registerForLogin).alert(isPresented: $alerta){
+                        Alert(title: Text("Alert"),message:Text("\(message)"),dismissButton: .default(Text("Ok")))
+                    }
                 }
-
             }.foregroundColor(.white).accentColor(.white)
                 .padding()
         )
-//        }.foregroundColor(.white).accentColor(.white)
+
     }
     //Funciones
 
@@ -86,8 +59,16 @@ struct Login: View {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if error != nil {
                 print(error!.localizedDescription)
+                alerta.toggle()
+                message = "The mail and password could already exist"
+            }
+            if (email == "" || password == ""){
+                alerta.toggle()
+                message = "You must enter a valid email and a password with 6 or more characters"
             }else{
                 userIsLogged.toggle()
+                alerta.toggle()
+                message = "Validation Completed"
             }
         } // Fin de auth
     }// Fin de checkLogin
@@ -99,15 +80,11 @@ struct Login: View {
             }
             if (email == "" || password == ""){
                 alerta.toggle()
-                mensaje = "You must enter a valid email and a password with 6 or more characters"
+                message = "You must enter a valid email and a password with 6 or more characters"
             }else{
                 alerta.toggle()
-                mensaje = "User succesfully created"
+                message = "User succesfully created"
             }
-            
-            
-            
-            
         }//Fin de auth
     }//Fin de registerForlogin
     
@@ -120,10 +97,11 @@ struct Login_Previews: PreviewProvider {
 }
 
 // Emails and passwords
-//
+// Created
 // pigy@mail.com 123456
 // cordero@mail.com 123456
 // cris@mail.com 123456
+// Not created yet
 // efra@mail.com 123456
 // cocho@mail.com 123456
 

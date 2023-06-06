@@ -35,7 +35,7 @@ struct Menu: View {
     
 
     var body: some View {
-
+        NavigationView{
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(VStack{
             Spacer().frame(height: 50)
             
