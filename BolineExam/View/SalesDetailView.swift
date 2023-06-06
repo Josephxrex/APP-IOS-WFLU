@@ -8,35 +8,45 @@ struct SalesDetailView: View {
     var sale: SalesB
     
     private func editButton(action: @escaping () -> Void) -> some View {
-        Button(action: { action() }) {
-            Text("Edit").foregroundColor(Color("FondoList"))
-        }
+        Component_Button(buttonTitle: "Edit", action: action).frame(minHeight: 10, idealHeight: 10)
     }
     
-    //CUERPO
     var body: some View {
-        VStack {
-            Form {
-                Section(header: Text("Sale")) {
-                    Text(sale.name)
-                    Text(sale.quantity)
-                    Text(sale.idv)
-                    Text(sale.idc)
-                    Text(sale.pieces)
-                    Text(sale.pieces)
-                    Text(sale.subtotal)
-                    Text(sale.total)
-                }.listRowBackground(Color("FondoList")).foregroundColor(.white)
-            }.background(Color("Fondo")).scrollContentBackground(.hidden)
-            .navigationBarTitle(sale.name)
-            .navigationBarItems(trailing: editButton {
-                self.presentEditSaleSheet.toggle()
-            })
-            .onAppear() {
-                print("SalesDetailsView.onAppear() for \(self.sale.name)")
-            }
-            .onDisappear() {
-                print("SalesDetailsView.onDisappear()")
+        NavigationView {
+            ZStack {
+                Color("Fondo")
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    Component_Title(titleText: sale.name)
+                    Component_Subtitle(subtitleText: "Data")
+                    
+                    Form {
+                        Section(header: Text("ID:" + (sale.id ?? ""))) {
+                            Component_DetailField(textTitle: "Name:", textValue: sale.name)
+                            Component_DetailField(textTitle: "Quantity:", textValue: sale.quantity)
+                            Component_DetailField(textTitle: "Sale ID:", textValue: sale.idv)
+                            Component_DetailField(textTitle: "Purchase ID:", textValue: sale.idc)
+                            Component_DetailField(textTitle: "Pieces:", textValue: sale.pieces)
+                            Component_DetailField(textTitle: "Subtotal:", textValue: sale.subtotal)
+                            Component_DetailField(textTitle: "Total:", textValue: sale.total)
+                        }
+                        .listRowBackground(Color("FondoList"))
+                        .foregroundColor(.white)
+                        
+                        editButton{
+                            self.presentEditSaleSheet.toggle()
+                        }
+                    }
+                    .background(Color("Fondo"))
+                    .scrollContentBackground(.hidden)
+                    .onAppear() {
+                        print("SalesDetailView.onAppear() for \(self.sale.name)")
+                    }
+                    .onDisappear() {
+                        print("SalesDetailView.onDisappear()")
+                    }
+                }
             }
             .sheet(isPresented: self.$presentEditSaleSheet) {
                 SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .edit) { result in
@@ -48,13 +58,15 @@ struct SalesDetailView: View {
         }
     }
     
-    struct MovieDetailsView_Previews: PreviewProvider {
+    struct SalesDetailView_Previews: PreviewProvider {
         static var previews: some View {
             let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
             return
                 NavigationView {
                     SalesDetailView(sale: sale)
-                }.foregroundColor(.white).accentColor(.white)
-            }
+                }
+                .foregroundColor(.white)
+                .accentColor(.white)
         }
+    }
 }

@@ -9,46 +9,70 @@ struct SalesListView: View {
     @State var presentAddSaleSheet = false
     
     @StateObject var saleViewModel = SalesViewModel()
-    //Funciones
+    
+    // Funciones
     private func addButton(action: @escaping () -> Void) -> some View {
-        Button(action: { action() }) {
-            Text("+").font(.largeTitle).foregroundColor(Color("FondoList"))
+        Component_AddButton(action: action)
+    }
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color("Fondo")
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    Spacer().frame(height: 110)
+                    
+                    List{
+                        ForEach(saleViewModel.sales) {
+                            sale in NavigationLink(destination: SalesDetailView(sale: sale)){
+                                SaleRowView(sale:sale)
+                            }.listRowBackground(Color("FondoList"))
+                        }
+                        .onDelete(){
+                            indexSet in saleViewModel.removeSales(atOffsets: indexSet)
+                        }
+                    }.background(Color("Fondo")).scrollContentBackground(.hidden)
+                        .onAppear(){
+                            saleViewModel.subscribe()
+                        }
+                        .sheet(isPresented: self.$presentAddSaleSheet){
+                            let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
+                            SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .new) { result in
+                                if case .success(let action) = result, action == .delete {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }
+                            }
+                        }
+                }.foregroundColor(.white).accentColor(.white)
+                    .navigationBarTitleDisplayMode(.inline)
+                
+                VStack {
+                    Spacer().frame(height: 20)
+                    
+                    Component_Subtitle(subtitleText: "List of")
+                    Component_Title(titleText: "Sales")
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        addButton {
+                            presentAddSaleSheet.toggle()
+                        }
+                    }
+                    .padding(.trailing, 35)
+                    .padding(.bottom, 35)
+                }
+            }
         }
     }
     
-    //Cuerpo
-    var body: some View {
-        NavigationView{
-            List{
-                ForEach(saleViewModel.sales) {
-                    sale in NavigationLink(destination: SalesDetailView(sale: sale)){
-                        SaleRowView(sale:sale)
-                    }.listRowBackground(Color("FondoList"))
-                }
-                .onDelete(){
-                    indexSet in saleViewModel.removeSales(atOffsets: indexSet)
-                }
-            }.background(Color("Fondo")).scrollContentBackground(.hidden)
-            .onAppear(){
-                    saleViewModel.subscribe()
-                }
-            .sheet(isPresented: self.$presentAddSaleSheet){
-                let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
-                SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .new) { result in
-                    if case .success(let action) = result, action == .delete {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            }
-        }.navigationBarTitle("Sales").foregroundColor(.white).accentColor(.white)
-            .navigationBarTitleDisplayMode(.inline).navigationBarItems(trailing: addButton {
-                self.presentAddSaleSheet.toggle()
-        })
-    }
-}
-
-struct SalesListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SalesListView()
+    struct SalesListView_Previews: PreviewProvider {
+        static var previews: some View {
+            SalesListView()
+        }
     }
 }
