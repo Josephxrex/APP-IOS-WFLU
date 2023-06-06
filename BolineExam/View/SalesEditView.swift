@@ -19,6 +19,13 @@ struct SalesEditView: View {
     @ObservedObject var viewModel = SalesViewModels()
     var mode: ModeSale = .new
     var completionHandler: ((Result<Action, Error>) -> Void)?
+    
+    @State private var isExpanded = false
+    @State private var selectedItem = "Products"
+    @State private var quantity = ""
+    @State private var allGood = false
+    
+    @StateObject var productsViewModel = ProductsViewModel()
      
      
     var cancelButton: some View {
@@ -39,18 +46,51 @@ struct SalesEditView: View {
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
         VStack {
           Section(header: Text("Sale Data").font(.largeTitle)) {
+              
+              
             TextField("Name", text: $viewModel.sale.name).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
               
+              //Component_Dropdown()
+              
+              DisclosureGroup("\(selectedItem)", isExpanded: $isExpanded){
+                  VStack{
+                      ForEach(productsViewModel.products){
+                          item in
+                          Text("\(item.name)")
+                              .padding(.all)
+                              .onTapGesture(){
+                                  self.selectedItem = item.name
+                                  self.quantity = item.units
+                                  withAnimation{
+                                      self.isExpanded.toggle()
+                                  }
+                                  
+                              }
+                      }
+                  }
+              }.accentColor(.white)
+                  .foregroundColor(.white)
+                  .padding(.all)
+                  .background(Color("Inputs"))
+                  .cornerRadius(5.0)
+                  .padding(.horizontal)
+                  .onAppear() {
+                     productsViewModel.subscribe()
+                 }
+
             TextField("Quantity", text: $viewModel.sale.quantity).padding()
                   .background(Color("Inputs"))
                   .foregroundColor(.white)
                   .cornerRadius(5.0)
                   .padding(.horizontal)
                   .keyboardType(.numberPad)
+                  .onChange(of: viewModel.sale.quantity){ newValue in
+                      intNull(valor: newValue)
+                  }
                   .onReceive(Just(viewModel.sale.idv)){
                   value in
                   let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -58,6 +98,22 @@ struct SalesEditView: View {
                       self.viewModel.sale.idv = "\(filtered)"
                   }
                   }
+              
+              Text("Quantity Available: \(quantity)")
+              
+              TextField("Pieces", text: $viewModel.sale.pieces).padding()
+                    .background(Color("Inputs"))
+                    .foregroundColor(.white)
+                    .cornerRadius(5.0)
+                    .padding(.horizontal)
+                    .keyboardType(.numberPad)
+                    .onReceive(Just(viewModel.sale.pieces)){
+                    value in
+                    let filtered = "\(value)".filter { "0123456789".contains($0) }
+                    if filtered != value {
+                        self.viewModel.sale.pieces = "\(filtered)"
+                    }
+                    }
               
             TextField("IDVenta", text: $viewModel.sale.idv).padding()
                   .background(Color("Inputs"))
@@ -87,19 +143,7 @@ struct SalesEditView: View {
                   }
                   }
               
-            TextField("Pieces", text: $viewModel.sale.pieces).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .keyboardType(.numberPad)
-                  .onReceive(Just(viewModel.sale.pieces)){
-                  value in
-                  let filtered = "\(value)".filter { "0123456789".contains($0) }
-                  if filtered != value {
-                      self.viewModel.sale.pieces = "\(filtered)"
-                  }
-                  }
+            
               
             TextField("Subtotal", text: $viewModel.sale.subtotal).padding()
                   .background(Color("Inputs"))
@@ -166,8 +210,10 @@ struct SalesEditView: View {
     }
      
     func handleDoneTapped() {
-      self.viewModel.handleDoneTapped()
-      self.dismiss()
+        if(allGood) {
+            self.viewModel.handleDoneTapped()
+            self.dismiss()
+        }
     }
      
     func handleDeleteTapped() {
@@ -178,6 +224,19 @@ struct SalesEditView: View {
      
     func dismiss() {
       self.presentationMode.wrappedValue.dismiss()
+    }
+    
+    func compareQuantity(valor: Int){
+        if(Int(quantity)! < valor) {
+            print("todo mal")
+        } else{
+            self.allGood = true
+        }
+    }
+    func intNull(valor: String){
+        if(valor != ""){
+            compareQuantity(valor: Int(valor)!)
+        }
     }
   }
  

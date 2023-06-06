@@ -42,6 +42,7 @@
 		F17B35E72A15715A001634BC /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F17B35E62A15715A001634BC /* FirebaseFirestoreSwift */; };
 		F17B35EC2A15757F001634BC /* Component_SecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17B35EB2A15757F001634BC /* Component_SecureField.swift */; };
 		F17B35EE2A15759C001634BC /* Component_TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17B35ED2A15759C001634BC /* Component_TextField.swift */; };
+		F18371FC2A2EA40A00232E46 /* Component_Dropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18371FB2A2EA40A00232E46 /* Component_Dropdown.swift */; };
 		F18CF35A2A256C840061E32F /* Component_Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18CF3592A256C840061E32F /* Component_Button.swift */; };
 		F18CF35C2A2579260061E32F /* Component_Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18CF35B2A2579260061E32F /* Component_Title.swift */; };
 		F18CF3602A2579DE0061E32F /* Component_Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18CF35F2A2579DE0061E32F /* Component_Subtitle.swift */; };
@@ -87,6 +88,7 @@
 		F17629282A16B9EF00B50172 /* SaleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleRowView.swift; sourceTree = "<group>"; };
 		F17B35EB2A15757F001634BC /* Component_SecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_SecureField.swift; sourceTree = "<group>"; };
 		F17B35ED2A15759C001634BC /* Component_TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_TextField.swift; sourceTree = "<group>"; };
+		F18371FB2A2EA40A00232E46 /* Component_Dropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_Dropdown.swift; sourceTree = "<group>"; };
 		F18CF3592A256C840061E32F /* Component_Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_Button.swift; sourceTree = "<group>"; };
 		F18CF35B2A2579260061E32F /* Component_Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_Title.swift; sourceTree = "<group>"; };
 		F18CF35F2A2579DE0061E32F /* Component_Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_Subtitle.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				F18CF35B2A2579260061E32F /* Component_Title.swift */,
 				F18CF35F2A2579DE0061E32F /* Component_Subtitle.swift */,
 				F11F875D2A25914400E02C99 /* Component_NumberField.swift */,
+				F18371FB2A2EA40A00232E46 /* Component_Dropdown.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				F17629292A16B9EF00B50172 /* SaleRowView.swift in Sources */,
 				C9B67FCA2A0EFD4B00793AD4 /* SalesDetailView.swift in Sources */,
 				F1F238FD2A156A5700C95E1D /* ProductsListView.swift in Sources */,
+				F18371FC2A2EA40A00232E46 /* Component_Dropdown.swift in Sources */,
 				C9B67FC22A0EFCC400793AD4 /* PurchaseViewModels.swift in Sources */,
 				F17B35EE2A15759C001634BC /* Component_TextField.swift in Sources */,
 				F17B35EC2A15757F001634BC /* Component_SecureField.swift in Sources */,
