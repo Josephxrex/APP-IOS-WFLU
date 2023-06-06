@@ -48,6 +48,8 @@
 		F1D625A32A16A4E000A4B825 /* SalesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D625A22A16A4E000A4B825 /* SalesListView.swift */; };
 		F1D625A52A16A4FE00A4B825 /* UsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D625A42A16A4FE00A4B825 /* UsersListView.swift */; };
 		F1D625A72A16AEE000A4B825 /* ProductRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D625A62A16AEE000A4B825 /* ProductRowView.swift */; };
+		F1DC09B02A2FBC6800B07632 /* Component_AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DC09AF2A2FBC6800B07632 /* Component_AddButton.swift */; };
+		F1DC09B22A2FBC8200B07632 /* Component_DetailField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DC09B12A2FBC8200B07632 /* Component_DetailField.swift */; };
 		F1E9DD7F2A16B61500C2DC6A /* PurchaseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E9DD7E2A16B61500C2DC6A /* PurchaseRowView.swift */; };
 		F1E9DD832A16B74700C2DC6A /* PurchasesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E9DD822A16B74700C2DC6A /* PurchasesListView.swift */; };
 		F1F238FD2A156A5700C95E1D /* ProductsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F238FC2A156A5700C95E1D /* ProductsListView.swift */; };
@@ -93,6 +95,8 @@
 		F1D625A22A16A4E000A4B825 /* SalesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesListView.swift; sourceTree = "<group>"; };
 		F1D625A42A16A4FE00A4B825 /* UsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListView.swift; sourceTree = "<group>"; };
 		F1D625A62A16AEE000A4B825 /* ProductRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRowView.swift; sourceTree = "<group>"; };
+		F1DC09AF2A2FBC6800B07632 /* Component_AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_AddButton.swift; sourceTree = "<group>"; };
+		F1DC09B12A2FBC8200B07632 /* Component_DetailField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component_DetailField.swift; sourceTree = "<group>"; };
 		F1E9DD7E2A16B61500C2DC6A /* PurchaseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRowView.swift; sourceTree = "<group>"; };
 		F1E9DD822A16B74700C2DC6A /* PurchasesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesListView.swift; sourceTree = "<group>"; };
 		F1F238FC2A156A5700C95E1D /* ProductsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsListView.swift; sourceTree = "<group>"; };
@@ -212,6 +216,8 @@
 				F18CF35B2A2579260061E32F /* Component_Title.swift */,
 				F18CF35F2A2579DE0061E32F /* Component_Subtitle.swift */,
 				F11F875D2A25914400E02C99 /* Component_NumberField.swift */,
+				F1DC09AF2A2FBC6800B07632 /* Component_AddButton.swift */,
+				F1DC09B12A2FBC8200B07632 /* Component_DetailField.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -306,6 +312,7 @@
 				F17B35EE2A15759C001634BC /* Component_TextField.swift in Sources */,
 				F17B35EC2A15757F001634BC /* Component_SecureField.swift in Sources */,
 				F1D625A32A16A4E000A4B825 /* SalesListView.swift in Sources */,
+				F1DC09B02A2FBC6800B07632 /* Component_AddButton.swift in Sources */,
 				C9B67FB22A0EFB3100793AD4 /* UserViewModels.swift in Sources */,
 				C9B67FAC2A0EFAA900793AD4 /* UserEditView.swift in Sources */,
 				C9B67FB62A0EFBC200793AD4 /* ProductsViewModels.swift in Sources */,
@@ -325,6 +332,7 @@
 				C9B67FBE2A0EFC9100793AD4 /* PurchaseDetailView.swift in Sources */,
 				F1E9DD832A16B74700C2DC6A /* PurchasesListView.swift in Sources */,
 				F1E9DD7F2A16B61500C2DC6A /* PurchaseRowView.swift in Sources */,
+				F1DC09B22A2FBC8200B07632 /* Component_DetailField.swift in Sources */,
 				C9B67F932A0EF87900793AD4 /* BolineExamApp.swift in Sources */,
 				F1D625A52A16A4FE00A4B825 /* UsersListView.swift in Sources */,
 				F1D625A72A16AEE000A4B825 /* ProductRowView.swift in Sources */,
