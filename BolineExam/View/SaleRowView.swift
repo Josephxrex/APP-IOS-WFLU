@@ -12,7 +12,7 @@ struct SaleRowView: View {
                 Text(sale.name).font(.title)
                 HStack{
                     Text("Quantity:"+sale.quantity).font(.subheadline)
-                    Text("Total:"+sale.total).font(.subheadline)
+                    Text("Total: $"+sale.total).font(.subheadline)
                 }
             }.foregroundColor(Color.white)
         }

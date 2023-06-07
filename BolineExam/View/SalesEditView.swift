@@ -9,16 +9,17 @@ enum ModeSale {
 enum ActionSale {
   case delete
   case done
-  case cancel
 }
  
 struct SalesEditView: View {
     @Environment(\.presentationMode) private var presentationMode
     @State var presentActionSheet = false
-     
     @ObservedObject var viewModel = SalesViewModels()
-    var mode: ModeSale = .new
-    var completionHandler: ((Result<Action, Error>) -> Void)?
+    @StateObject var productsViewModel = ProductsViewModel()
+    
+    @State private var showAlert = false;
+    @State private var title = "";
+    @State private var message = "";
     
     // Variables Products Dropdown
     @State private var isExpanded = false
@@ -26,39 +27,23 @@ struct SalesEditView: View {
     @State private var quantity = ""
     @State private var allGood = false
     
-    @StateObject var productsViewModel = ProductsViewModel()
+    var mode: ModeSale = .new
+    var completionHandler: ((Result<ActionSale, Error>) -> Void)?
     
-    // Variables Alert
-    @State private var showAlert = false;
-    @State private var title = "";
-    @State private var message = "";
-    
-    
-     
-     
-    var cancelButton: some View {
-      Button(action: { self.handleCancelTapped() }) {
-        Text("Cancel")
-      }
-    }
-     
-    var saveButton: some View {
-        Button(action: { self.validateSalesFields() }) {
-        Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
-      }
-      .alert(isPresented: $showAlert){
-          Alert(title: Text(title), message: Text(message))
-          }
-      .disabled(!viewModel.modified)
+    private func saveButton(action: @escaping () -> Void) -> some View {
+        Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: action).alert(isPresented: $showAlert){
+            Alert(title: Text(title), message: Text(message))
+            }
+            .disabled(!viewModel.modified)
     }
      
     var body: some View {
       NavigationView {
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
         VStack {
-          Section(header: Text("Sale Data").font(.largeTitle)) {
+          Section(header: Component_Title(titleText: mode == .new ? "New sale" : "Edit sale")) {
               
-              
+
               //Component_Dropdown()
               
               DisclosureGroup("\(selectedItem)", isExpanded: $isExpanded){
@@ -88,12 +73,7 @@ struct SalesEditView: View {
                      productsViewModel.subscribe()
                  }
 
-            TextField("Quantity", text: $viewModel.sale.quantity).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .keyboardType(.numberPad)
+              Component_TextField(textFieldTitle: "Quantity", textFieldText: $viewModel.sale.quantity).keyboardType(.numberPad)
                   .onChange(of: viewModel.sale.quantity){ newValue in
                       intNull(valor: newValue)
                   }
@@ -107,12 +87,7 @@ struct SalesEditView: View {
               
               Text("Quantity Available: \(quantity)")
               
-              TextField("Pieces", text: $viewModel.sale.pieces).padding()
-                    .background(Color("Inputs"))
-                    .foregroundColor(.white)
-                    .cornerRadius(5.0)
-                    .padding(.horizontal)
-                    .keyboardType(.numberPad)
+              Component_TextField(textFieldTitle: "Pieces", textFieldText: $viewModel.sale.pieces).keyboardType(.numberPad)
                     .onReceive(Just(viewModel.sale.pieces)){
                     value in
                     let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -121,12 +96,7 @@ struct SalesEditView: View {
                     }
                     }
               
-            TextField("IDVenta", text: $viewModel.sale.idv).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .keyboardType(.numberPad)
+              Component_TextField(textFieldTitle: "Sale ID", textFieldText: $viewModel.sale.idv).keyboardType(.numberPad)
                   .onReceive(Just(viewModel.sale.idv)){
                   value in
                   let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -135,12 +105,7 @@ struct SalesEditView: View {
                   }
                   }
               
-              TextField("IDCompra", text: $viewModel.sale.idc).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .keyboardType(.numberPad)
+              Component_TextField(textFieldTitle: "Purchase ID", textFieldText: $viewModel.sale.idc).keyboardType(.numberPad)
                   .onReceive(Just(viewModel.sale.idc)){
                   value in
                   let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -149,14 +114,7 @@ struct SalesEditView: View {
                   }
                   }
               
-            
-              
-            TextField("Subtotal", text: $viewModel.sale.subtotal).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .keyboardType(.numberPad)
+              Component_TextField(textFieldTitle: "Subtotal", textFieldText: $viewModel.sale.subtotal).keyboardType(.numberPad)
                   .onReceive(Just(viewModel.sale.subtotal)){
                   value in
                   let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -165,12 +123,7 @@ struct SalesEditView: View {
                   }
                   }
               
-             TextField("Total", text: $viewModel.sale.total).padding()
-                  .background(Color("Inputs"))
-                  .foregroundColor(.white)
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .keyboardType(.numberPad)
+              Component_TextField(textFieldTitle: "Total", textFieldText: $viewModel.sale.total).keyboardType(.numberPad)
                   .onReceive(Just(viewModel.sale.total)){
                   value in
                   let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -178,39 +131,17 @@ struct SalesEditView: View {
                       self.viewModel.sale.total = "\(filtered)"
                   }
                   }
+              Spacer().frame(height: 50)
               
-          }
-           
-          if mode == .edit {
-            Section {
-              Button("Delete Sale") { self.presentActionSheet.toggle() }
-                .foregroundColor(.red)
-                .font(.headline)
-                .padding()
-            }
+              saveButton(action: validateFields)
+              
           }
         }//Fin de Vstack
         )//Cierre de Overlay
         .foregroundColor(.white)
-        .navigationTitle(mode == .new ? "New Sale" : "Edit:"+viewModel.sale.name).foregroundColor(.white)
-        .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
-        .navigationBarItems(
-          leading: cancelButton,
-          trailing: saveButton
-        )
-        .actionSheet(isPresented: $presentActionSheet) {
-          ActionSheet(title: Text("Are you sure?"),
-                      buttons: [
-                        .destructive(Text("Delete Sale"),
-                                     action: { self.handleDeleteTapped() }),
-                        .cancel()
-                      ])
-        }
       }.foregroundColor(.white).accentColor(.white)
     }
     
-    
-     
     // Action Handlers
      
     func handleCancelTapped() {
@@ -234,6 +165,19 @@ struct SalesEditView: View {
       self.presentationMode.wrappedValue.dismiss()
     }
     
+    // Validation
+    func validateFields(){
+        if([viewModel.sale.name, viewModel.sale.pieces, viewModel.sale.total, viewModel.sale.subtotal, viewModel.sale.idc, viewModel.sale.quantity, viewModel.sale.idv].contains("")){
+            title = "Error"
+            message = "One or more fields are empty"
+            showAlert.toggle()
+        }else{
+            title="Success"
+            message="The fields were saved succesfully"
+            showAlert.toggle()
+            self.handleDoneTapped()
+        }
+    }
     
     // Validation functions
     func compareQuantity(valor: Int){
@@ -263,6 +207,8 @@ struct SalesEditView: View {
         }
     }
   }
+     
+    
  
 //struct MovieEditView_Previews: PreviewProvider {
 //    static var previews: some View {

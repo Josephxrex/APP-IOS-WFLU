@@ -9,113 +9,76 @@ enum ModeUser {
 enum ActionUser {
   case delete
   case done
-  case cancel
 }
  
 struct UserEditView: View {
     @Environment(\.presentationMode) private var presentationMode
     @State var presentActionSheet = false
-     
     @ObservedObject var viewModel = UserViewModels()
+    
+    @State private var showAlert = false;
+    @State private var title = "";
+    @State private var message = "";
+    
     var mode: ModeUser = .new
-    var completionHandler: ((Result<Action, Error>) -> Void)?
+    var completionHandler: ((Result<ActionUser, Error>) -> Void)?
      
-     
-    var cancelButton: some View {
-      Button(action: { self.handleCancelTapped() }) {
-        Text("Cancel")
-      }
-    }
-     
-    var saveButton: some View {
-      Button(action: { self.handleDoneTapped() }) {
-        Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
-      }
-      .disabled(!viewModel.modified)
+    private func saveButton(action: @escaping () -> Void) -> some View {
+        Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: action).alert(isPresented: $showAlert){
+            Alert(title: Text(title), message: Text(message))
+            }
+            .disabled(!viewModel.modified)
     }
      
     var body: some View {
-      NavigationView {
-          Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
-          VStack{
-              Section(header: Text("User")
-                .font(.largeTitle.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundColor(.white).padding(.leading)) {
-                  TextField("Name", text: $viewModel.user.name).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                  
-                  TextField("LastName", text: $viewModel.user.lastname).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                  
-                  TextField("Age", text: $viewModel.user.age).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                      .keyboardType(.numberPad)
-                      .onReceive(Just(viewModel.user.age)){
-                      value in
-                      let filtered = "\(value)".filter { "0123456789".contains($0) }
-                      if filtered != value {
-                          self.viewModel.user.age = "\(filtered)"
-                      }
-                      }
-                  
-                  TextField("Gender", text: $viewModel.user.gender).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                  
-                  TextField("E-mail", text: $viewModel.user.email).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-                      .keyboardType(.emailAddress)
-                  
-                  TextField("Password", text: $viewModel.user.password).padding()
-                      .background(Color("Inputs"))
-                      .foregroundColor(.white)
-                      .cornerRadius(5.0)
-                      .padding(.horizontal)
-              }
-              
-              if mode == .edit {
-                  Section {
-                      Button("Delete User") { self.presentActionSheet.toggle() }
-                          .foregroundColor(.red)
-                          .font(.headline)
-                          .padding()
-                  }
-              }
-          }//Fin de Vstack
-          )//Cierre de Overlay
-          .foregroundColor(.white)
-        .navigationTitle(mode == .new ? "" : "Edit:"+viewModel.user.name).foregroundColor(.white)
-        .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
-        .navigationBarItems(
-          leading: cancelButton,
-          trailing: saveButton
-        )
-        .actionSheet(isPresented: $presentActionSheet) {
-          ActionSheet(title: Text("Are you sure?"),
-                      buttons: [
-                        .destructive(Text("Delete User"),
-                                     action: { self.handleDeleteTapped() }),
-                        .cancel()
-                      ])
+        NavigationView {
+            Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
+                VStack{
+                    Section (header: Component_Title(titleText: mode == .new ? "New user" : "Edit user")) {
+                        
+                        Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.user.name)
+                        
+                        Component_TextField(textFieldTitle: "LastName", textFieldText: $viewModel.user.lastname)
+                        
+                        Component_TextField(textFieldTitle: "Age", textFieldText: $viewModel.user.age).keyboardType(.numberPad)
+                            .onReceive(Just(viewModel.user.age)){
+                                value in
+                                let filtered = "\(value)".filter { "0123456789".contains($0) }
+                                if filtered != value {
+                                    self.viewModel.user.age = "\(filtered)"
+                                }
+                            }
+                        
+                        Component_TextField(textFieldTitle: "Gender", textFieldText: $viewModel.user.gender)
+                        
+                        Component_TextField(textFieldTitle: "E-mail", textFieldText: $viewModel.user.email).keyboardType(.emailAddress)
+                        
+                        Component_SecureField(secureFieldTitle: "Password", secureFieldText: $viewModel.user.password)
+                        
+                        Spacer().frame(height: 50)
+                        
+                        saveButton(action: validateFields)
+                    }
+                }
+                ).foregroundColor(.white)
+                }.foregroundColor(Color.white).accentColor(Color.white)
         }
-      }
-    }
+
      
+    // Validation
+    func validateFields(){
+        if([viewModel.user.name, viewModel.user.password,viewModel.user.gender, viewModel.user.age, viewModel.user.email, viewModel.user.lastname].contains("")){
+            title = "Error"
+            message = "One or more fields are empty"
+            showAlert.toggle()
+        }else{
+            title="Success"
+            message="The fields were saved succesfully"
+            showAlert.toggle()
+            self.handleDoneTapped()
+        }
+    }
+    
     // Action Handlers
      
     func handleCancelTapped() {
@@ -137,12 +100,6 @@ struct UserEditView: View {
       self.presentationMode.wrappedValue.dismiss()
     }
   }
- 
-//struct MovieEditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MovieEditView()
-//    }
-//}
  
 struct MovieEditView_Previews: PreviewProvider {
   static var previews: some View {

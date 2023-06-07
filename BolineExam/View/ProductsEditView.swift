@@ -1,22 +1,14 @@
-//  ProductsEditView
-//  Products.swift
-//  ProyectoV1
-//
-//  Created by ISSC_611_2023 on 24/04/23.
-//
-
 import SwiftUI
 import Combine
 
-enum Mode {
+enum ModeProducts {
   case new
   case edit
 }
  
-enum Action {
+enum ActionProducts {
   case delete
   case done
-  case cancel
 }
 
 struct ProductsEditView: View {
@@ -28,46 +20,26 @@ struct ProductsEditView: View {
     @State private var title = "";
     @State private var message = "";
     
-    var mode: Mode = .new
-    var completionHandler: ((Result<Action, Error>) -> Void)?
-    
-    
-    var cancelButton: some View {
-      Button(action: { self.handleCancelTapped() }) {
-        Text("Cancel")
-      }.foregroundColor(Color(.red))
-            .font(.headline)
-            .frame(width: 220, height: 60)
-    }
+    var mode: ModeProducts = .new
+    var completionHandler: ((Result<ActionProducts, Error>) -> Void)?
      
-    var saveButton: some View {
-      Button(action: { validateFields() }) {
-          Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
-      }
-      .alert(isPresented: $showAlert){
-      Alert(title: Text(title), message: Text(message))
-      }
-      .disabled(!viewModel.modified)
-      .foregroundColor(Color.white)
-            .font(.headline)
-            .frame(width: 220, height: 60)
+    private func saveButton(action: @escaping () -> Void) -> some View {
+        Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: action).alert(isPresented: $showAlert){
+            Alert(title: Text(title), message: Text(message))
+            }
+            .disabled(!viewModel.modified)
     }
     
     var body: some View {
         NavigationView{
            Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
                 VStack{
-                    Section(header: Component_Title(titleText: "Product")) {
+                    Section(header: Component_Title(titleText: mode == .new ? "New product" : "Edit product")) {
                     Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.product.name)
                         
                     Component_TextField(textFieldTitle: "Description", textFieldText: $viewModel.product.description)
                         
-                    
-                    TextField("Units", text:$viewModel.product.units).padding()
-                        .background(Color("Inputs"))
-                        .foregroundColor(.white)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
+                    Component_TextField(textFieldTitle: "Units", textFieldText: $viewModel.product.units)
                         .keyboardType(.numberPad)
                         .onReceive(Just(viewModel.product.units)){
                         value in
@@ -77,12 +49,7 @@ struct ProductsEditView: View {
                         }
                         }
                     
-                    TextField("Cost", text:$viewModel.product.cost).padding()
-                        .background(Color("Inputs"))
-                        .foregroundColor(.white)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
-                        .keyboardType(.numberPad)
+                    Component_TextField(textFieldTitle: "Cost", textFieldText: $viewModel.product.cost).keyboardType(.numberPad)
                         .onReceive(Just(viewModel.product.cost)){
                         value in
                         let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -91,11 +58,7 @@ struct ProductsEditView: View {
                         }
                         }
                     
-                    TextField("Price", text:$viewModel.product.price).padding()
-                        .background(Color("Inputs"))
-                        .foregroundColor(.white)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
+                        Component_TextField(textFieldTitle: "Price", textFieldText: $viewModel.product.price)
                         .keyboardType(.numberPad)
                         .onReceive(Just(viewModel.product.price)){
                         value in
@@ -105,12 +68,7 @@ struct ProductsEditView: View {
                         }
                         }
                     
-                    TextField("Utility", text:$viewModel.product.utility).padding()
-                        .background(Color("Inputs"))
-                        .foregroundColor(.white)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
-                        .keyboardType(.numberPad)
+                        Component_TextField(textFieldTitle: "Utility", textFieldText: $viewModel.product.utility).keyboardType(.numberPad)
                         .onReceive(Just(viewModel.product.utility)){
                         value in
                         let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -118,33 +76,14 @@ struct ProductsEditView: View {
                             self.viewModel.product.utility = "\(filtered)"
                         }
                         }
-                    
-                        if mode == .edit {
-                            Section {
-                                Button("Delete Product") { self.presentActionSheet.toggle() }
-                                    .foregroundColor(.red)
-                                    .font(.headline)
-                                    .padding()
-                            }
-                        }
-            }
+                        
+                        Spacer().frame(height: 50)
+                        
+                        saveButton(action: validateFields)
+            }//Fin de section
         }//Fin de vstack
             )//Cierre de Overlay
             .foregroundColor(.white)
-            .navigationTitle(mode == .new ? "New Product" : "Edit:"+viewModel.product.name).foregroundColor(.white)
-            .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
-            .navigationBarItems(
-              leading: cancelButton,
-              trailing: saveButton
-            )
-            .actionSheet(isPresented: $presentActionSheet) {
-              ActionSheet(title: Text("Are you sure?"),
-                          buttons: [
-                            .destructive(Text("Delete Product"),
-                                         action: { self.handleDeleteTapped() }),
-                            .cancel()
-                          ])
-            }
     }.foregroundColor(.white).accentColor(.white)//Fin de NavigationView
 }//Fin de view
     
@@ -162,7 +101,6 @@ struct ProductsEditView: View {
         }
     }
     
-
         // Action Handlers
      
     func handleCancelTapped() {

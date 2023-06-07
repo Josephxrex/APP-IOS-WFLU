@@ -9,42 +9,33 @@ enum ModePurchase {
 enum ActionPurchase {
   case delete
   case done
-  case cancel
 }
 
 struct PurchaseEditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var presentActionSheet = false
     @ObservedObject var viewModel = PurchaseViewModel()
+    
+    @State private var showAlert = false;
+    @State private var title = "";
+    @State private var message = "";
+    
     var mode: ModePurchase = .new
     var completionHandler: ((Result<ActionPurchase, Error>) -> Void)?
 
-    
-    var cancelButton: some View {
-      Button(action: { self.handleCancelTapped() }) {
-        Text("Cancel")
-      }
-    }
-     
-    var saveButton: some View {
-      Button(action: { self.handleDoneTapped() }) {
-        Text(mode == .new ? "Done" : "Save").foregroundColor(Color("Inputs"))
-      }
-      .disabled(!viewModel.modified)
+    private func saveButton(action: @escaping () -> Void) -> some View {
+        Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: action).alert(isPresented: $showAlert){
+            Alert(title: Text(title), message: Text(message))
+            }
+            .disabled(!viewModel.modified)
     }
     
     var body: some View {
         NavigationView{
             Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
             VStack {
-                    Section(header: Text("Purchase data").font(.largeTitle)) {
-                        //Unidades
-                        TextField("ida", text:$viewModel.purchase.ida).padding()
-                            .background(Color("Inputs"))
-                            .foregroundColor(.white)
-                            .cornerRadius(5.0)
-                            .padding(.horizontal)
-                            .keyboardType(.numberPad)
+                Section(header: Component_Title(titleText: mode == .new ? "New purchase" : "Edit purchase")) {
+                    Component_TextField(textFieldTitle: "ida", textFieldText: $viewModel.purchase.ida).keyboardType(.numberPad)
                             .onReceive(Just(viewModel.purchase.pieces)){
                             value in
                             let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -52,15 +43,10 @@ struct PurchaseEditView: View {
                                 self.viewModel.purchase.pieces = "\(filtered)"
                             }
                           }
+                    
                         Component_TextField(textFieldTitle: "Name", textFieldText: $viewModel.purchase.name)
                         
-
-                        TextField("Units", text:$viewModel.purchase.pieces).padding()
-                            .background(Color("Inputs"))
-                            .foregroundColor(.white)
-                            .cornerRadius(5.0)
-                            .padding(.horizontal)
-                            .keyboardType(.numberPad)
+                    Component_TextField(textFieldTitle: "Units", textFieldText: $viewModel.purchase.pieces).keyboardType(.numberPad)
                             .onReceive(Just(viewModel.purchase.pieces)){
                             value in
                             let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -68,38 +54,30 @@ struct PurchaseEditView: View {
                                 self.viewModel.purchase.pieces = "\(filtered)"
                             }
                             }
-                            
-                    }
                     
-                if mode == .edit {
-                    Section {
-                        Button("Delete Purchase") { self.presentActionSheet.toggle() }
-                            .foregroundColor(.red)
-                            .font(.headline)
-                            .padding()
-                    }
+                    Spacer().frame(height: 50)
+                    
+                    saveButton(action: validateFields)
                 }
-                }//Fin de Vstack
+            }//Fin de Vstack
             )//Cierre de Overlay
             .foregroundColor(.white)
-            .navigationTitle(mode == .new ? "New Purchase" : "Edit:"+viewModel.purchase.name).foregroundColor(.white)
-            .navigationBarTitleDisplayMode(mode == .new ? .inline : .large)
-            .navigationBarItems(
-              leading: cancelButton,
-              trailing: saveButton
-            )
-            .actionSheet(isPresented: $presentActionSheet) {
-              ActionSheet(title: Text("Are you sure?"),
-                          buttons: [
-                            .destructive(Text("Delete Purchase"),
-                                         action: { self.handleDeleteTapped() }),
-                            .cancel()
-                          ])
-            }
         }.foregroundColor(.white).accentColor(.white)
-    }
+    }//Fin de view
     
-
+    // Validation
+    func validateFields(){
+        if([viewModel.purchase.name,viewModel.purchase.pieces, viewModel.purchase.ida].contains("")){
+            title = "Error"
+            message = "One or more fields are empty"
+            showAlert.toggle()
+        }else{
+            title="Success"
+            message="The fields were saved succesfully"
+            showAlert.toggle()
+            self.handleDoneTapped()
+        }
+    }
 
         // Action Handlers
      

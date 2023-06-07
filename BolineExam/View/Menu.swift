@@ -8,7 +8,7 @@ struct Menu: View {
     @State private var email = ""
     @State private var password = ""
     @State private var mensaje = ""
-    @State private var alerta = false
+    @State private var alert = false
     @Binding var userIsLogged : Bool
     //Recepción de datos de la lista
     struct Item: Identifiable {
@@ -27,9 +27,14 @@ struct Menu: View {
     
     //Variable que llegan a fungir como componentes
     var logOutButton: some View {
-      Button("Log Out"){
-          userIsLogged.toggle()
-      }.foregroundColor(Color("Inputs"))
+        
+        Button(action: {
+            userIsLogged.toggle()
+                }) {
+                    Image(systemName: "power")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                }
         
         //Text("Log Out").foregroundColor(Color("Inputs"))
       
@@ -54,10 +59,10 @@ struct Menu: View {
                                 }
                             }.listRowBackground(Color("FondoList")).foregroundColor(.white).accentColor(.white)
                         }.background( Color("Fondo")).scrollContentBackground(.hidden)
-            })//Fin del overlay
-                .navigationBarItems(
-                trailing: logOutButton
-              )
+        }).navigationBarItems(leading: Image("CotlineStore").resizable().accentColor(Color.white)
+            .scaledToFit()
+            .frame(width: 100, height: 100)
+            .foregroundColor(.white), trailing: logOutButton)
         }//Fin del NavigationView
     }//Fin del body
 }//Fin del MenuView

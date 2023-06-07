@@ -12,7 +12,7 @@ struct UserRowView: View {
                 Text(user.name).font(.title)
                 HStack{
                     Text("Name:"+user.name).font(.subheadline)
-                    Text("Lastname:"+user.lastname).font(.subheadline)
+                    Text("Last name:"+user.lastname).font(.subheadline)
                 }
             }.foregroundColor(Color.white)
         }

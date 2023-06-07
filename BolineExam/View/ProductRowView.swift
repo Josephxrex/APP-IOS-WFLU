@@ -11,7 +11,7 @@ struct ProductRowView: View {
             VStack(alignment: .leading){
                 Text(product.name).font(.title)
                 HStack{
-                    Text("Price:"+product.price).font(.subheadline)
+                    Text("Price: $"+product.price).font(.subheadline)
                     Text("Units:"+product.units).font(.subheadline)
                 }
             }.foregroundColor(Color.white)
