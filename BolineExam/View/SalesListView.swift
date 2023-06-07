@@ -16,13 +16,12 @@ struct SalesListView: View {
     }
     
     var body: some View {
-        NavigationView {
             ZStack {
                 Color("Fondo")
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Spacer().frame(height: 110)
+                    Spacer().frame(height: 200)
                     
                     List{
                         ForEach(saleViewModel.sales) {
@@ -49,7 +48,7 @@ struct SalesListView: View {
                     .navigationBarTitleDisplayMode(.inline)
                 
                 VStack {
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 110)
                     
                     Component_Subtitle(subtitleText: "List of")
                     Component_Title(titleText: "Sales")
@@ -67,7 +66,7 @@ struct SalesListView: View {
                     .padding(.bottom, 35)
                 }
             }
-        }
+        
     }
     
     struct SalesListView_Previews: PreviewProvider {

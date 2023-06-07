@@ -13,13 +13,12 @@ struct UsersListView: View {
     }
     
     var body: some View {
-        NavigationView {
             ZStack {
                 Color("Fondo")
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Spacer().frame(height: 110)
+                    Spacer().frame(height: 200)
                     
                     List {
                         ForEach(userViewModel.users) { user in
@@ -50,7 +49,7 @@ struct UsersListView: View {
                 .accentColor(.white)
                 .navigationBarTitleDisplayMode(.inline)
                 VStack {
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 110)
                     
                     Component_Subtitle(subtitleText: "List of")
                     Component_Title(titleText: "Users")
@@ -68,7 +67,7 @@ struct UsersListView: View {
                     .padding(.bottom, 35)
                 }
             }
-        }
+        
     }
     
     struct UsersListView_Previews: PreviewProvider {

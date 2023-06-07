@@ -25,13 +25,12 @@ struct ProductsListView: View {
     }
     
     var body: some View {
-        NavigationView {
             ZStack {
                 Color("Fondo")
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Spacer().frame(height: 110)
+                    Spacer().frame(height: 200)
                     
                     List {
                         ForEach(productsViewModel.products) { product in
@@ -61,7 +60,7 @@ struct ProductsListView: View {
                 
                 
                 VStack {
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 110)
                     
                     Component_Subtitle(subtitleText: "List of")
                     Component_Title(titleText: "Products")
@@ -79,7 +78,7 @@ struct ProductsListView: View {
                     .padding(.bottom, 35)
                 }
             }
-        }
+        
     }
     
     struct ProductsListView_Previews: PreviewProvider {

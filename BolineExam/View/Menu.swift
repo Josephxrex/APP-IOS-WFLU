@@ -63,7 +63,7 @@ struct Menu: View {
             .scaledToFit()
             .frame(width: 100, height: 100)
             .foregroundColor(.white), trailing: logOutButton)
-        }//Fin del NavigationView
+        }.accentColor(Color.white)//Fin del NavigationView
     }//Fin del body
 }//Fin del MenuView
 
