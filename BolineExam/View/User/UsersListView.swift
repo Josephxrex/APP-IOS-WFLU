@@ -38,7 +38,7 @@ struct UsersListView: View {
                     }
                     .sheet(isPresented: $presentAddUserSheet) {
                         let user = UserB(name: "", lastname: "", age: "", gender: "", email: "", password: "")
-                        UserEditView(viewModel: UserViewModels(user: user), mode: .new) { result in
+                        UserEditView(viewModelUser: UserViewModels(user: user), mode: .new) { result in
                             if case .success(let action) = result, action == .delete {
                                 presentationMode.wrappedValue.dismiss()
                             }

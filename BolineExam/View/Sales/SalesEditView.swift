@@ -56,6 +56,7 @@ struct SalesEditView: View {
                                   self.selectedItem = item.name
                                   self.quantity = item.units
                                   self.viewModel.sale.name = self.selectedItem
+                                  print(quantity)
                                   withAnimation{
                                       self.isExpanded.toggle()
                                   }
@@ -74,14 +75,17 @@ struct SalesEditView: View {
                  }
 
               Component_TextField(textFieldTitle: "Quantity", textFieldText: $viewModel.sale.quantity).keyboardType(.numberPad)
-                  .onChange(of: viewModel.sale.quantity){ newValue in
+                  .onChange(of: quantity){ newValue in
+                      print("Old value " + quantity)
+                      print("New value " + newValue)
                       intNull(valor: newValue)
+                      
                   }
-                  .onReceive(Just(viewModel.sale.idv)){
+                  .onReceive(Just(viewModel.sale.quantity)){
                   value in
                   let filtered = "\(value)".filter { "0123456789".contains($0) }
                   if filtered != value {
-                      self.viewModel.sale.idv = "\(filtered)"
+                      self.viewModel.sale.quantity = "\(filtered)"
                   }
                   }
               
@@ -142,6 +146,21 @@ struct SalesEditView: View {
       }.foregroundColor(.white).accentColor(.white)
     }
     
+    // Validation
+    func validateFields(){
+        print(viewModel.sale.pieces + " " + viewModel.sale.total + " " +  viewModel.sale.subtotal + " " + viewModel.sale.idc + " " + viewModel.sale.quantity + " " + viewModel.sale.idv)
+        if([viewModel.sale.pieces, viewModel.sale.total, viewModel.sale.subtotal, viewModel.sale.idc, viewModel.sale.quantity, viewModel.sale.idv].contains("")){
+            title = "Error"
+            message = "One or more fields are empty"
+            showAlert.toggle()
+        }else{
+            title="Success"
+            message="The fields were saved succesfully"
+            showAlert.toggle()
+            self.handleDoneTapped()
+        }
+    }
+    
     // Action Handlers
      
     func handleCancelTapped() {
@@ -165,20 +184,6 @@ struct SalesEditView: View {
       self.presentationMode.wrappedValue.dismiss()
     }
     
-    // Validation
-    func validateFields(){
-        if([viewModel.sale.name, viewModel.sale.pieces, viewModel.sale.total, viewModel.sale.subtotal, viewModel.sale.idc, viewModel.sale.quantity, viewModel.sale.idv].contains("")){
-            title = "Error"
-            message = "One or more fields are empty"
-            showAlert.toggle()
-        }else{
-            title="Success"
-            message="The fields were saved succesfully"
-            showAlert.toggle()
-            self.handleDoneTapped()
-        }
-    }
-    
     // Validation functions
     func compareQuantity(valor: Int){
         if(Int(quantity)! < valor) {
@@ -193,22 +198,7 @@ struct SalesEditView: View {
             compareQuantity(valor: Int(valor)!)
         }
     }
-    
-    func validateSalesFields(){
-        if([viewModel.sale.name, viewModel.sale.quantity, viewModel.sale.idv, viewModel.sale.idc, viewModel.sale.pieces, viewModel.sale.subtotal, viewModel.sale.total].contains("")){
-            title = "Error"
-            message = "One or more fields are empty"
-            showAlert.toggle()
-        }else{
-            title="Success"
-            message="The fields were saved succesfully"
-            showAlert.toggle()
-            self.handleDoneTapped()
-        }
-    }
-  }
-     
-    
+}
  
 //struct MovieEditView_Previews: PreviewProvider {
 //    static var previews: some View {

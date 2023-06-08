@@ -27,7 +27,6 @@ struct ProductsEditView: View {
         Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: action).alert(isPresented: $showAlert){
             Alert(title: Text(title), message: Text(message))
             }
-            .disabled(!viewModel.modified)
     }
     
     var body: some View {
@@ -40,7 +39,6 @@ struct ProductsEditView: View {
                     Component_TextField(textFieldTitle: "Description", textFieldText: $viewModel.product.description)
                         
                     Component_TextField(textFieldTitle: "Units", textFieldText: $viewModel.product.units)
-                        .keyboardType(.numberPad)
                         .onReceive(Just(viewModel.product.units)){
                         value in
                         let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -49,7 +47,7 @@ struct ProductsEditView: View {
                         }
                         }
                     
-                    Component_TextField(textFieldTitle: "Cost", textFieldText: $viewModel.product.cost).keyboardType(.numberPad)
+                    Component_TextField(textFieldTitle: "Cost", textFieldText: $viewModel.product.cost)
                         .onReceive(Just(viewModel.product.cost)){
                         value in
                         let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -59,7 +57,6 @@ struct ProductsEditView: View {
                         }
                     
                         Component_TextField(textFieldTitle: "Price", textFieldText: $viewModel.product.price)
-                        .keyboardType(.numberPad)
                         .onReceive(Just(viewModel.product.price)){
                         value in
                         let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -68,7 +65,7 @@ struct ProductsEditView: View {
                         }
                         }
                     
-                        Component_TextField(textFieldTitle: "Utility", textFieldText: $viewModel.product.utility).keyboardType(.numberPad)
+                        Component_TextField(textFieldTitle: "Utility", textFieldText: $viewModel.product.utility)
                         .onReceive(Just(viewModel.product.utility)){
                         value in
                         let filtered = "\(value)".filter { "0123456789".contains($0) }
@@ -89,6 +86,7 @@ struct ProductsEditView: View {
     
     // Validation 
     func validateFields(){
+        print(viewModel.product.name + " " + viewModel.product.units + " " + viewModel.product.cost + " " + viewModel.product.price + " " + viewModel.product.utility)
         if([viewModel.product.name, viewModel.product.units, viewModel.product.cost, viewModel.product.price, viewModel.product.utility].contains("")){
             title = "Error"
             message = "One or more fields are empty"
