@@ -54,7 +54,7 @@ struct ProductDetailsView: View {
                         print("ProductsDetailView.onDisappear()")
                     }
                     .sheet(isPresented: self.$presentEditProductSheet) {
-                        ProductsEditView(viewModel: ProductViewModel(product: product), mode: .edit) { result in
+                        ProductsEditView(viewModelProducts: ProductViewModel(product: product), mode: .edit) { result in
                             if case .success(let action) = result, action == .delete {
                                 self.presentationMode.wrappedValue.dismiss()
                             }
