@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import CryptoKit
  
 enum ModeUser {
   case new
@@ -116,6 +117,7 @@ struct UserEditView: View {
     // Validation
     func validateFields(){
         print(name,gender,age,email,lastname)
+        viewModelUser.user.password = hashValue(viewModelUser.user.password)
         if([name,gender, age, email, lastname].contains("")){
             title = "Error"
             message = "One or more fields are empty"
@@ -127,6 +129,20 @@ struct UserEditView: View {
             self.handleDoneTapped()
         }
     }
+    
+    // Hash function
+    func hashValue(_ value: String) -> String {
+            if let inputData = value.data(using: .utf8) {
+                let hashedData = SHA256.hash(data: inputData)
+                let hashedString = hashedData.compactMap {
+                    String(format: "%02x", $0)
+                }.joined()
+                
+                return hashedString
+            }
+            
+            return ""
+        }
     
     // Action Handlers
      
