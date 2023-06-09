@@ -104,17 +104,10 @@ struct SalesEditView: View {
                   
                   Text("Quantity Available: \(units)")
                   
-                  Component_TextField(textFieldTitle: "Pieces", textFieldText: $pieces).keyboardType(.numberPad)
+                  Component_TextField(textFieldTitle: "Unit Type", textFieldText: $pieces).keyboardType(.numberPad)
                         .onAppear(){pieces = viewModel.sale.pieces}
                         .onChange(of: pieces){newValue in pieces = newValue
                             viewModel.sale.pieces = newValue
-                        }
-                        .onReceive(Just(pieces)){
-                        value in
-                        let filtered = "\(value)".filter { "0123456789".contains($0) }
-                        if filtered != value {
-                            self.pieces = "\(filtered)"
-                        }
                         }
                   
                   Component_TextField(textFieldTitle: "Sale ID", textFieldText: $saleid).keyboardType(.numberPad)
