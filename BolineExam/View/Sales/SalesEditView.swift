@@ -24,17 +24,25 @@ struct SalesEditView: View {
     // Variables Products Dropdown
     @State private var isExpanded = false
     @State private var selectedItem = "Products"
-    @State private var quantity = ""
+    @State private var units = ""
     @State private var allGood = false
+    
+    // Variables para guardar los valores de los
+    @State private var name = ""
+    @State private var quantity = ""
+    @State private var pieces = ""
+    @State private var saleid = ""
+    @State private var purchaseid = ""
+    @State private var subtotal = ""
+    @State private var total = ""
     
     var mode: ModeSale = .new
     var completionHandler: ((Result<ActionSale, Error>) -> Void)?
     
-    private func saveButton(action: @escaping () -> Void) -> some View {
-        Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: action).alert(isPresented: $showAlert){
+    var saveButton:  some View {
+        Component_Button(buttonTitle: mode == .new ? "Done" : "Save", action: validateFields).alert(isPresented: $showAlert){
             Alert(title: Text(title), message: Text(message))
             }
-            .disabled(!viewModel.modified)
     }
      
     var body: some View {
@@ -42,102 +50,244 @@ struct SalesEditView: View {
         Color("Fondo").edgesIgnoringSafeArea(.all).overlay(
         VStack {
           Section(header: Component_Title(titleText: mode == .new ? "New sale" : "Edit sale")) {
-              
-
-              //Component_Dropdown()
-              
-              DisclosureGroup("\(selectedItem)", isExpanded: $isExpanded){
-                  VStack{
-                      ForEach(productsViewModel.products){
-                          item in
-                          Text("\(item.name)")
-                              .padding(.all)
-                              .onTapGesture(){
-                                  self.selectedItem = item.name
-                                  self.quantity = item.units
-                                  self.viewModel.sale.name = self.selectedItem
-                                  print(quantity)
-                                  withAnimation{
-                                      self.isExpanded.toggle()
+              if(mode == .edit){
+                  //Component_Dropdown()
+                  DisclosureGroup("\(viewModel.sale.name)", isExpanded: $isExpanded){
+                      VStack{
+                          ForEach(productsViewModel.products){
+                              item in
+                              Text("\(item.name)")
+                                  .padding(.all)
+                                  .onTapGesture(){
+                                      self.selectedItem = item.name
+                                      self.units = item.units
+                                      self.viewModel.sale.name = self.selectedItem
+                                      print(quantity)
+                                      withAnimation{
+                                          self.isExpanded.toggle()
+                                      }
+                                      
                                   }
-                                  
-                              }
+                          }
                       }
-                  }
-              }.accentColor(.white)
-                  .foregroundColor(.white)
-                  .padding(.all)
-                  .background(Color("Inputs"))
-                  .cornerRadius(5.0)
-                  .padding(.horizontal)
-                  .onAppear() {
-                     productsViewModel.subscribe()
-                 }
+                  }.accentColor(.white)
+                      .foregroundColor(.white)
+                      .padding(.all)
+                      .background(Color("Inputs"))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                      .onAppear() {
+                         productsViewModel.subscribe()
+                          name = viewModel.sale.name
+                     }
+                      .onChange(of: viewModel.sale.name){newValue in name = newValue
+                          viewModel.sale.name = newValue
+                      }
 
-              Component_TextField(textFieldTitle: "Quantity", textFieldText: $viewModel.sale.quantity).keyboardType(.numberPad)
-                  .onChange(of: quantity){ newValue in
-                      print("Old value " + quantity)
-                      print("New value " + newValue)
-                      intNull(valor: newValue)
-                      
-                  }
-                  .onReceive(Just(viewModel.sale.quantity)){
-                  value in
-                  let filtered = "\(value)".filter { "0123456789".contains($0) }
-                  if filtered != value {
-                      self.viewModel.sale.quantity = "\(filtered)"
-                  }
-                  }
-              
-              Text("Quantity Available: \(quantity)")
-              
-              Component_TextField(textFieldTitle: "Pieces", textFieldText: $viewModel.sale.pieces).keyboardType(.numberPad)
-                    .onReceive(Just(viewModel.sale.pieces)){
-                    value in
-                    let filtered = "\(value)".filter { "0123456789".contains($0) }
-                    if filtered != value {
-                        self.viewModel.sale.pieces = "\(filtered)"
-                    }
-                    }
-              
-              Component_TextField(textFieldTitle: "Sale ID", textFieldText: $viewModel.sale.idv).keyboardType(.numberPad)
-                  .onReceive(Just(viewModel.sale.idv)){
-                  value in
-                  let filtered = "\(value)".filter { "0123456789".contains($0) }
-                  if filtered != value {
-                      self.viewModel.sale.idv = "\(filtered)"
-                  }
-                  }
-              
-              Component_TextField(textFieldTitle: "Purchase ID", textFieldText: $viewModel.sale.idc).keyboardType(.numberPad)
-                  .onReceive(Just(viewModel.sale.idc)){
-                  value in
-                  let filtered = "\(value)".filter { "0123456789".contains($0) }
-                  if filtered != value {
-                      self.viewModel.sale.idc = "\(filtered)"
-                  }
-                  }
-              
-              Component_TextField(textFieldTitle: "Subtotal", textFieldText: $viewModel.sale.subtotal).keyboardType(.numberPad)
-                  .onReceive(Just(viewModel.sale.subtotal)){
-                  value in
-                  let filtered = "\(value)".filter { "0123456789".contains($0) }
-                  if filtered != value {
-                      self.viewModel.sale.subtotal = "\(filtered)"
-                  }
-                  }
-              
-              Component_TextField(textFieldTitle: "Total", textFieldText: $viewModel.sale.total).keyboardType(.numberPad)
-                  .onReceive(Just(viewModel.sale.total)){
-                  value in
-                  let filtered = "\(value)".filter { "0123456789".contains($0) }
-                  if filtered != value {
-                      self.viewModel.sale.total = "\(filtered)"
-                  }
-                  }
-              Spacer().frame(height: 50)
-              
-              saveButton(action: validateFields)
+                  Component_TextField(textFieldTitle: "Quantity", textFieldText: $quantity).keyboardType(.numberPad)
+                      .onAppear(){quantity = viewModel.sale.quantity}
+                      .onChange(of: quantity){ newValue in
+                          quantity = newValue
+                          viewModel.sale.quantity = newValue
+                          print("Old value " + units)
+                          print("New value " + newValue)
+                          intNull(valor: newValue)
+                          
+                      }
+                      .onReceive(Just(quantity)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.quantity = "\(filtered)"
+                      }
+                      }
+                  
+                  Text("Quantity Available: \(units)")
+                  
+                  Component_TextField(textFieldTitle: "Pieces", textFieldText: $pieces).keyboardType(.numberPad)
+                        .onAppear(){pieces = viewModel.sale.pieces}
+                        .onChange(of: pieces){newValue in pieces = newValue
+                            viewModel.sale.pieces = newValue
+                        }
+                        .onReceive(Just(pieces)){
+                        value in
+                        let filtered = "\(value)".filter { "0123456789".contains($0) }
+                        if filtered != value {
+                            self.pieces = "\(filtered)"
+                        }
+                        }
+                  
+                  Component_TextField(textFieldTitle: "Sale ID", textFieldText: $saleid).keyboardType(.numberPad)
+                      .onAppear(){saleid = viewModel.sale.idv}
+                      .onChange(of: saleid){newValue in saleid = newValue
+                          viewModel.sale.idv = newValue
+                      }
+                      .onReceive(Just(saleid)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.saleid = "\(filtered)"
+                      }
+                      }
+                  
+                  Component_TextField(textFieldTitle: "Purchase ID", textFieldText: $purchaseid).keyboardType(.numberPad)
+                      .onAppear(){purchaseid = viewModel.sale.idc}
+                      .onChange(of: purchaseid){newValue in purchaseid = newValue
+                          viewModel.sale.idc = newValue
+                      }
+                      .onReceive(Just(purchaseid)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.purchaseid = "\(filtered)"
+                      }
+                      }
+                  
+                  Component_TextField(textFieldTitle: "Subtotal", textFieldText: $subtotal).keyboardType(.numberPad)
+                      .onAppear(){subtotal = viewModel.sale.subtotal}
+                      .onChange(of: subtotal){newValue in subtotal = newValue
+                          viewModel.sale.subtotal = newValue
+                      }
+                      .onReceive(Just(subtotal)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.subtotal = "\(filtered)"
+                      }
+                      }
+                  
+                  Component_TextField(textFieldTitle: "Total", textFieldText: $total).keyboardType(.numberPad)
+                      .onAppear(){total = viewModel.sale.total}
+                      .onChange(of: total){newValue in total = newValue
+                          viewModel.sale.total = newValue
+                      }
+                      .onReceive(Just(total)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.total = "\(filtered)"
+                      }
+                      }
+                  Spacer().frame(height: 50)
+                  
+                  saveButton
+
+              } else{
+                  //Component_Dropdown()
+                  DisclosureGroup("\(selectedItem)", isExpanded: $isExpanded){
+                      VStack{
+                          ForEach(productsViewModel.products){
+                              item in
+                              Text("\(item.name)")
+                                  .padding(.all)
+                                  .onTapGesture(){
+                                      self.selectedItem = item.name
+                                      self.units = item.units
+                                      self.viewModel.sale.name = self.selectedItem
+                                      print(quantity)
+                                      withAnimation{
+                                          self.isExpanded.toggle()
+                                      }
+                                      
+                                  }
+                          }
+                      }
+                  }.accentColor(.white)
+                      .foregroundColor(.white)
+                      .padding(.all)
+                      .background(Color("Inputs"))
+                      .cornerRadius(5.0)
+                      .padding(.horizontal)
+                      .onAppear() {
+                         productsViewModel.subscribe()
+                     }
+                      .onChange(of: viewModel.sale.name){newValue in name = newValue
+                          viewModel.sale.name = newValue
+                      }
+
+                  Component_TextField(textFieldTitle: "Quantity", textFieldText: $quantity).keyboardType(.numberPad)
+                      .onChange(of: quantity){ newValue in
+                          quantity = newValue
+                          viewModel.sale.quantity = newValue
+                          print("Old value " + units)
+                          print("New value " + newValue)
+                          intNull(valor: newValue)
+                          
+                      }
+                      .onReceive(Just(quantity)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.quantity = "\(filtered)"
+                      }
+                      }
+                  
+                  Text("Quantity Available: \(units)")
+                  
+                  Component_TextField(textFieldTitle: "Pieces", textFieldText: $pieces).keyboardType(.numberPad)
+                        .onChange(of: pieces){newValue in pieces = newValue
+                            viewModel.sale.pieces = newValue
+                        }
+                        .onReceive(Just(pieces)){
+                        value in
+                        let filtered = "\(value)".filter { "0123456789".contains($0) }
+                        if filtered != value {
+                            self.pieces = "\(filtered)"
+                        }
+                        }
+                  
+                  Component_TextField(textFieldTitle: "Sale ID", textFieldText: $saleid).keyboardType(.numberPad)
+                      .onChange(of: saleid){newValue in saleid = newValue
+                          viewModel.sale.idv = newValue
+                      }
+                      .onReceive(Just(saleid)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.saleid = "\(filtered)"
+                      }
+                      }
+                  
+                  Component_TextField(textFieldTitle: "Purchase ID", textFieldText: $purchaseid).keyboardType(.numberPad)
+                      .onChange(of: purchaseid){newValue in purchaseid = newValue
+                          viewModel.sale.idc = newValue
+                      }
+                      .onReceive(Just(purchaseid)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.purchaseid = "\(filtered)"
+                      }
+                      }
+                  
+                  Component_TextField(textFieldTitle: "Subtotal", textFieldText: $subtotal).keyboardType(.numberPad)
+                      .onChange(of: subtotal){newValue in subtotal = newValue
+                          viewModel.sale.subtotal = newValue
+                          viewModel.sale.pieces = newValue
+                      }
+                      .onReceive(Just(subtotal)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.subtotal = "\(filtered)"
+                      }
+                      }
+                  
+                  Component_TextField(textFieldTitle: "Total", textFieldText: $total).keyboardType(.numberPad)
+                      .onChange(of: total){newValue in total = newValue
+                          viewModel.sale.total = newValue
+                      }
+                      .onReceive(Just(total)){
+                      value in
+                      let filtered = "\(value)".filter { "0123456789".contains($0) }
+                      if filtered != value {
+                          self.total = "\(filtered)"
+                      }
+                      }
+                  Spacer().frame(height: 50)
+                  
+                  saveButton
+              }
               
           }
         }//Fin de Vstack
@@ -148,8 +298,8 @@ struct SalesEditView: View {
     
     // Validation
     func validateFields(){
-        print(viewModel.sale.pieces + " " + viewModel.sale.total + " " +  viewModel.sale.subtotal + " " + viewModel.sale.idc + " " + viewModel.sale.quantity + " " + viewModel.sale.idv)
-        if([viewModel.sale.pieces, viewModel.sale.total, viewModel.sale.subtotal, viewModel.sale.idc, viewModel.sale.quantity, viewModel.sale.idv].contains("")){
+        print(pieces + " " + total + " " +  subtotal + " " + purchaseid + " " + quantity + " " + saleid)
+        if([name, pieces, total,  subtotal, purchaseid, quantity, saleid].contains("")){
             title = "Error"
             message = "One or more fields are empty"
             showAlert.toggle()
