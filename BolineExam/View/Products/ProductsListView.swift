@@ -48,7 +48,7 @@ struct ProductsListView: View {
                         }
                         .sheet(isPresented: self.$presentAddProductSheet){
                             let product = Product(name: "", description: "", units: "", cost: "", price: "", utility: "")
-                            ProductsEditView(viewModel: ProductViewModel(product: product), mode: .new) { result in
+                            ProductsEditView(viewModelProducts: ProductViewModel(product: product), mode: .new) { result in
                                 if case .success(let action) = result, action == .delete {
                                     self.presentationMode.wrappedValue.dismiss()
                                 }
