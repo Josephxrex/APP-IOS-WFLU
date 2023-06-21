@@ -30,7 +30,6 @@ struct SalesEditView: View {
     // Variables para guardar los valores de los
     @State private var name = ""
     @State private var quantity = ""
-    @State private var pieces = ""
     @State private var saleid = ""
     @State private var purchaseid = ""
     @State private var subtotal = ""
@@ -104,11 +103,6 @@ struct SalesEditView: View {
                   
                   Text("Quantity Available: \(units)")
                   
-                  Component_TextField(textFieldTitle: "Unit Type", textFieldText: $pieces).keyboardType(.numberPad)
-                        .onAppear(){pieces = viewModel.sale.pieces}
-                        .onChange(of: pieces){newValue in pieces = newValue
-                            viewModel.sale.pieces = newValue
-                        }
                   
                   Component_TextField(textFieldTitle: "Sale ID", textFieldText: $saleid).keyboardType(.numberPad)
                       .onAppear(){saleid = viewModel.sale.idv}
@@ -217,18 +211,6 @@ struct SalesEditView: View {
                   
                   Text("Quantity Available: \(units)")
                   
-                  Component_TextField(textFieldTitle: "Pieces", textFieldText: $pieces).keyboardType(.numberPad)
-                        .onChange(of: pieces){newValue in pieces = newValue
-                            viewModel.sale.pieces = newValue
-                        }
-                        .onReceive(Just(pieces)){
-                        value in
-                        let filtered = "\(value)".filter { "0123456789".contains($0) }
-                        if filtered != value {
-                            self.pieces = "\(filtered)"
-                        }
-                        }
-                  
                   Component_TextField(textFieldTitle: "Sale ID", textFieldText: $saleid).keyboardType(.numberPad)
                       .onChange(of: saleid){newValue in saleid = newValue
                           viewModel.sale.idv = newValue
@@ -256,7 +238,6 @@ struct SalesEditView: View {
                   Component_TextField(textFieldTitle: "Subtotal", textFieldText: $subtotal).keyboardType(.numberPad)
                       .onChange(of: subtotal){newValue in subtotal = newValue
                           viewModel.sale.subtotal = newValue
-                          viewModel.sale.pieces = newValue
                       }
                       .onReceive(Just(subtotal)){
                       value in
@@ -291,8 +272,8 @@ struct SalesEditView: View {
     
     // Validation
     func validateFields(){
-        print(pieces + " " + total + " " +  subtotal + " " + purchaseid + " " + quantity + " " + saleid)
-        if([name, pieces, total,  subtotal, purchaseid, quantity, saleid].contains("")){
+        print( total + " " +  subtotal + " " + purchaseid + " " + quantity + " " + saleid)
+        if([name, total,  subtotal, purchaseid, quantity, saleid].contains("")){
             title = "Error"
             message = "One or more fields are empty"
             showAlert.toggle()
@@ -351,7 +332,7 @@ struct SalesEditView: View {
  
 struct SalesEditView_Previews: PreviewProvider {
   static var previews: some View {
-      let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
+      let sale = SalesB(name: "", quantity: "", idv: "", idc: "", subtotal: "", total: "")
     let saleViewModel = SalesViewModels(sale: sale)
     return SalesEditView(viewModel: saleViewModel, mode: .edit)
   }

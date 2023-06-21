@@ -27,7 +27,6 @@ struct SalesDetailView: View {
                             Component_DetailField(textTitle: "Quantity:", textValue: sale.quantity)
                             Component_DetailField(textTitle: "Sale ID:", textValue: sale.idv)
                             Component_DetailField(textTitle: "Purchase ID:", textValue: sale.idc)
-                            Component_DetailField(textTitle: "Unit Type:", textValue: sale.pieces)
                             Component_DetailField(textTitle: "Subtotal:", textValue: sale.subtotal)
                             Component_DetailField(textTitle: "Total:", textValue: sale.total)
                         }
@@ -60,7 +59,7 @@ struct SalesDetailView: View {
     
     struct SalesDetailView_Previews: PreviewProvider {
         static var previews: some View {
-            let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
+            let sale = SalesB(name: "", quantity: "", idv: "", idc: "", subtotal: "", total: "")
             return
                 NavigationView {
                     SalesDetailView(sale: sale)

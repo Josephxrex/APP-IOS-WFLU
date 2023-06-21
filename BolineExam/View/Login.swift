@@ -81,8 +81,8 @@ struct Login: View {
                 message = "You must enter a valid email and a password with 6 or more characters"
             }else{
                 userIsLogged.toggle()
-                alert.toggle()
-                message = "Validation Completed"
+                /*alert.toggle()
+                message = "Validation Completed"*/
             }
         } // Fin de auth
     }// Fin de checkLogin

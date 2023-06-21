@@ -14,7 +14,7 @@ class SalesViewModels: ObservableObject {
     private let db = Firestore.firestore()
     private let collection = "sale" // Nombre de la colección en la base de datos
     
-    init(sale: SalesB = SalesB(name:"",quantity: "",idv: "",idc: "",pieces: "",subtotal: "",total: "")) {
+    init(sale: SalesB = SalesB(name:"",quantity: "",idv: "",idc: "",subtotal: "",total: "")) {
         self.sale = sale
         
         self.$sale

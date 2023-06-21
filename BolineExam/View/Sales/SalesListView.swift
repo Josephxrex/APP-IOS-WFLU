@@ -37,7 +37,7 @@ struct SalesListView: View {
                             saleViewModel.subscribe()
                         }
                         .sheet(isPresented: self.$presentAddSaleSheet){
-                            let sale = SalesB(name: "", quantity: "", idv: "", idc: "", pieces: "", subtotal: "", total: "")
+                            let sale = SalesB(name: "", quantity: "", idv: "", idc: "", subtotal: "", total: "")
                             SalesEditView(viewModel: SalesViewModels(sale: sale), mode: .new) { result in
                                 if case .success(let action) = result, action == .delete {
                                     self.presentationMode.wrappedValue.dismiss()

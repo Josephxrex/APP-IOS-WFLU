@@ -7,7 +7,6 @@ struct SalesB: Identifiable, Codable {
     var quantity: String
     var idv:String
     var idc:String
-    var pieces:String
     var subtotal:String
     var total:String
 
@@ -17,7 +16,6 @@ struct SalesB: Identifiable, Codable {
         case quantity
         case idv
         case idc
-        case pieces
         case subtotal
         case total
     }
